@@ -2,10 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import type { TypedUseSelectorHook } from "react-redux";
 import { createTaskModalReducer } from "./slices/createTaskSlice";
+import { categoriesTasksReducer } from "./slices/todosTasksSlice";
 
 export const store = configureStore({
   reducer: {
     createTaskModal: createTaskModalReducer,
+    categoryTasksSlice: categoriesTasksReducer,
   },
 });
 

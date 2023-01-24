@@ -3,9 +3,11 @@ import React from "react";
 const TodoItem = ({ data }) => {
   const completedStyle =
     "p-3 rounded-full bg-[#406ffa] border-[0.5px] border-black";
-  const defaultStyle = "border-[1px] p-3 rounded-full border-black";
+  const defaultStyle = "border-[0.5px] p-3 rounded-full border-black";
+  const priorStyle = " bg-red-100";
 
-  const buttonStyle = data.completed ? completedStyle : defaultStyle;
+  let buttonStyle = data.completed ? completedStyle : defaultStyle;
+  buttonStyle += data.is_prior && priorStyle;
 
   return (
     <div
