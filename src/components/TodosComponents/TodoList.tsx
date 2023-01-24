@@ -1,6 +1,5 @@
 import React from "react";
 import TodoItem from "./TodoItem";
-import { todosData } from "../../mock/todos";
 import { useAppSelector } from "../../store/store";
 import {
   selectCategory,
