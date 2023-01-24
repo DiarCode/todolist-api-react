@@ -1,8 +1,8 @@
 import React from "react";
-import { useAppDispatch, useAppSelector } from "../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import createTaskModalActions, {
   selectIsOpen,
-} from "../store/slices/createTaskSlice";
+} from "../../store/slices/createTaskSlice";
 
 const CreateTaskModal = () => {
   const dispatch = useAppDispatch();
