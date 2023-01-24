@@ -1,7 +1,7 @@
 import React from "react";
-import Sidebar from "../components/Sidebar";
-import Content from "../components/Content";
-import Layout from "../components/Layout";
+import Layout from "../components/Layout/Layout";
+import Sidebar from "../components/TodosComponents/Sidebar";
+import Content from "../components/TodosComponents/Content";
 
 const HomePage = () => {
   return (

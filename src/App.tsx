@@ -1,9 +1,9 @@
 import React from "react";
-import CreateTaskModal from "./components/CreateTaskModal";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import { Route, Routes } from "react-router-dom";
 import SignUpPage from "./pages/SignUpPage";
+import CreateTaskModal from "./components/TodosComponents/CreateTaskModal";
 
 function App() {
   return (
