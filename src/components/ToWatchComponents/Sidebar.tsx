@@ -1,10 +1,10 @@
 import React from "react";
 import UserIcon from "../Icons/UserIcon";
 import { categoriesData } from "../../mock/categories";
-import CategoryItem from "./CategoryItem";
 import categoriesTasksActions from "../../store/slices/todosTasksSlice";
 import { useAppDispatch } from "../../store/store";
 import { todosData } from "../../mock/todos";
+import CategoryItem from "../TodosComponents/CategoryItem";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
@@ -30,19 +30,19 @@ const Sidebar = () => {
 
         <hr className="mb-7" />
 
-        {/* <div className="flex flex-col gap-y-5 mb-7">
+        <div className="flex flex-col gap-y-5 mb-7">
           <p className="font-bold text-center">Today</p>
           <div className="flex justify-between text-sm">
             <div className="flex flex-col gap-y-2 items-center">
               <p className="font-bold text-xl">4</p>
               <p className="text-gray-400 text-center">
-                To do <br /> tasks
+                Watch later <br /> animes
               </p>
             </div>
             <div className="flex flex-col gap-y-2 items-center">
               <p className="font-bold text-xl">1</p>
               <p className="text-gray-400 text-center">
-                Completed <br /> tasks
+                Finished <br /> animes
               </p>
             </div>
             <div className="flex flex-col gap-y-2 items-center">
@@ -54,7 +54,7 @@ const Sidebar = () => {
           </div>
         </div>
 
-        <hr className="mb-7" /> */}
+        <hr className="mb-7" />
 
         <div className="flex flex-col gap-y-5">
           <p className="font-bold text-center">Categories</p>
@@ -69,16 +69,9 @@ const Sidebar = () => {
             {renderedCategories}
           </div>
         </div>
-
-        <div className="mt-auto flex items-center justify-center">
-          <button className="px-6 py-2 rounded-lg bg-gradient-to-r text-gray-200">
-            + Category
-          </button>
-        </div>
       </div>
     </div>
   );
 };
 
 export default Sidebar;
-
