@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
 import createTaskModalActions, {
-  selectIsOpen,
-} from "../../store/slices/createTaskSlice";
-import { categoriesData } from "../../mock/categories";
+  selectIsTodosOpen,
+} from "../../../store/slices/createTaskSlice";
+import { categoriesData } from "../../../mock/categories";
 
 const CreateTaskModal = () => {
   const dispatch = useAppDispatch();
-  const isOpen = useAppSelector(selectIsOpen);
+  const isOpen = useAppSelector(selectIsTodosOpen);
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
@@ -17,7 +17,7 @@ const CreateTaskModal = () => {
   const componentStyle = isOpen ? "flex" : "hidden";
 
   const onCloseClick = () => {
-    dispatch(createTaskModalActions.closeModal());
+    dispatch(createTaskModalActions.closeTodosModal());
   };
 
   const onSelectCategory = (id: number) => {
@@ -26,6 +26,11 @@ const CreateTaskModal = () => {
 
   const onTitleChange = (title: string) => {
     setTodoTitle(title);
+  };
+
+  const onResetAllParameters = () => {
+    setSelectedCategoryId(null);
+    setTodoTitle("");
   };
 
   const onFormSubmit = () => {
@@ -42,13 +47,11 @@ const CreateTaskModal = () => {
     };
 
     console.log(obj);
+    dispatch(createTaskModalActions.closeTodosModal());
+    onResetAllParameters();
   };
 
   const renderedCategories = categoriesData.map((category, index) => {
-    // if (index === 0) {
-    //   setSelectedCategoryId(category.id);
-    // }
-
     const isCategorySelected = selectedCategoryId === category.id;
 
     let componentStyle = "flex items-center gap-x-2 cursor-pointer";

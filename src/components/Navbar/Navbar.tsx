@@ -5,7 +5,6 @@ import { Link, useLocation } from "react-router-dom";
 const Navbar = () => {
   const { pathname } = useLocation();
 
-  console.log(pathname);
   const renderedNavbarLinks = navbarLinks.map((link, index) => {
     const isPathMatch = pathname === link.path;
     const linkStyle = isPathMatch ? "text-[#406ffa] underline" : "";

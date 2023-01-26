@@ -2,12 +2,20 @@ import React from "react";
 import { categoriesData } from "../../mock/categories";
 import CategoryItem from "./CategoryItem";
 import SidebarUserInfo from "../SidebarUserInfo/SidebarUserInfo";
+import { useAppDispatch } from "../../store/store";
+import createTaskModalActions from "../../store/slices/createTaskSlice";
 
 const Sidebar = () => {
+  const dispatch = useAppDispatch();
+
   // TODO: Query all categories
   const renderedCategories = categoriesData.map(category => (
     <CategoryItem key={category.id} data={category} />
   ));
+
+  const onAddButtonClick = () => {
+    dispatch(createTaskModalActions.showCategoryModal());
+  };
 
   return (
     <div className="col-span-1 h-full w-full p-7 border-[0.1] border-r">
@@ -26,7 +34,10 @@ const Sidebar = () => {
         </div>
 
         <div className="mt-auto flex items-center justify-center">
-          <button className="px-6 py-2 rounded-lg bg-gradient-to-r text-gray-200">
+          <button
+            onClick={onAddButtonClick}
+            className="px-6 py-2 rounded-lg bg-gradient-to-r text-gray-200"
+          >
             + Category
           </button>
         </div>

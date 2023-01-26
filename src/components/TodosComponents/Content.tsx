@@ -9,7 +9,7 @@ const Content = () => {
   const dispatch = useAppDispatch();
 
   const onAddButtonClick = () => {
-    dispatch(createTaskModalActions.showModal());
+    dispatch(createTaskModalActions.showTodosModal());
   };
 
   return (

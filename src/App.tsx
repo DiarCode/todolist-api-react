@@ -4,11 +4,20 @@ import TodosPage from "./pages/TodosPage";
 import LoginPage from "./pages/LoginPage";
 import { Route, Routes } from "react-router-dom";
 import SignUpPage from "./pages/SignUpPage";
-import CreateTaskModal from "./components/TodosComponents/CreateTaskModal";
 import { useAppDispatch } from "./store/store";
 import todosActions from "./store/slices/todosTasksSlice";
 import { todosData } from "./mock/todos";
 import ToWatchPage from "./pages/ToWatchPage";
+
+const ToWatchModal = React.lazy(
+  () => import("./components/ToWatchComponents/Modals/TowatchModal")
+);
+const CreateTaskModal = React.lazy(
+  () => import("./components/TodosComponents/Modals/CreateTaskModal")
+);
+const CreateCategoryModal = React.lazy(
+  () => import("./components/TodosComponents/Modals/CreateCategoryModal")
+);
 
 function App() {
   const dispatch = useAppDispatch();
@@ -19,7 +28,9 @@ function App() {
 
   return (
     <>
+      <ToWatchModal />
       <CreateTaskModal />
+      <CreateCategoryModal />
 
       <Routes>
         <Route path="/" element={<HomePage />} />

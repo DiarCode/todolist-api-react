@@ -1,8 +1,21 @@
 import React, { useState } from "react";
 import StarSolid from "../Icons/StarSolid";
+import toWatchModalActions from "../../store/slices/towatchSlice";
+import { useAppDispatch } from "../../store/store";
+import { IToWatch } from "../../types/towatch/towatch.type";
 
-const ToWatchItem = () => {
+interface ToWatchItemProps {
+  data: IToWatch;
+}
+
+const ToWatchItem = ({ data }: ToWatchItemProps) => {
+  const dispatch = useAppDispatch();
+
   const [isHovered, setIsHovered] = useState(false);
+
+  const onItemClick = () => {
+    dispatch(toWatchModalActions.showTowatchModal({ towatchItem: data }));
+  };
 
   const hoveredDetailsContent = isHovered && (
     <div
@@ -28,6 +41,7 @@ const ToWatchItem = () => {
 
   return (
     <div
+      onClick={onItemClick}
       className="w-[120px] sm:w-[177px] sm:pl-2 pt-2 flex"
       onMouseOver={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
