@@ -6,8 +6,10 @@ import {
   selectTodos,
 } from "../../store/slices/todosTasksSlice";
 import Filter from "./Filter";
+import { todosData } from "../../mock/todos";
 
 const TodoList = () => {
+  //TODO: make query to retrieve initial todos in the category
   const category = useAppSelector(selectCategory);
   const todos = useAppSelector(selectTodos);
 
@@ -26,7 +28,7 @@ const TodoList = () => {
           <p className="text-2xl">{categoryName}</p>
         </div>
 
-        <Filter />
+        <Filter todos={todosData} />
       </div>
 
       <div className="relative">

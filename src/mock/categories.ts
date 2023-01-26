@@ -21,44 +21,4 @@ export const categoriesData: ITodoCategory[] = [
     name: "House",
     color: "#468499",
   },
-  {
-    id: 1,
-    name: "Work",
-    color: "#EEAA88",
-  },
-  {
-    id: 2,
-    name: "Shop",
-    color: "#468499",
-  },
-  {
-    id: 3,
-    name: "Routine",
-    color: "#468499",
-  },
-  {
-    id: 4,
-    name: "House",
-    color: "#468499",
-  },
-  {
-    id: 1,
-    name: "Work",
-    color: "#EEAA88",
-  },
-  {
-    id: 2,
-    name: "Shop",
-    color: "#468499",
-  },
-  {
-    id: 3,
-    name: "Routine",
-    color: "#468499",
-  },
-  {
-    id: 4,
-    name: "House",
-    color: "#468499",
-  },
 ];

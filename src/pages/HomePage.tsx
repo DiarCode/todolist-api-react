@@ -16,7 +16,7 @@ const HomePage = () => {
         <div className="h-full flex items-center justify-center flex-col">
           <div className="mb-12">
             <p className="text-[#406ffa] font-semibold text-3xl mb-4 uppercase text-center">
-              Welocme to Todoom
+              Welcome to Todoom
             </p>
 
             <p className="text-lg text-gray-500 text-center">

@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import type { TypedUseSelectorHook } from "react-redux";
 import { createTaskModalReducer } from "./slices/createTaskSlice";
 import { categoriesTasksReducer } from "./slices/todosTasksSlice";
+import { createTowatchModalReducer } from "./slices/towatchSlice";
 
 export const store = configureStore({
   reducer: {
     createTaskModal: createTaskModalReducer,
     categoryTasksSlice: categoriesTasksReducer,
+    towatchModal: createTowatchModalReducer,
   },
 });
 
