@@ -27,7 +27,7 @@ const Content = () => {
           onClick={onAddButtonClick}
           className="px-10 py-2 rounded-lg bg-gradient-to-r text-gray-200"
         >
-          New Task
+          + New Task
         </button>
       </div>
     </div>
