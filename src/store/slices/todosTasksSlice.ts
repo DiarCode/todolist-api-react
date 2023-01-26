@@ -50,10 +50,13 @@ export const categoriesTasksSlice = createSlice({
       const initialTodos = action.payload.initialTodos;
 
       if (filterValue === "ACTIVE") {
-        state.todos =
-          initialTodos.filter(todo => todo.completed === false) || [];
+        state.todos = initialTodos
+          .filter(todo => todo.completed === false)
+          .filter(todo => todo?.category_id === state.category?.id);
       } else if (filterValue === "PRIMARY") {
-        state.todos = initialTodos.filter(todo => todo.is_prior === true) || [];
+        state.todos = initialTodos
+          .filter(todo => todo.is_prior === true)
+          .filter(todo => todo?.category_id === state.category?.id);
       } else if (filterValue === "ALL") {
         state.todos =
           initialTodos.filter(
