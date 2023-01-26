@@ -2,19 +2,23 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 import { selectFilterState } from "../../store/slices/todosTasksSlice";
 import todosActions from "../../store/slices/todosTasksSlice";
-import { todosData } from "../../mock/todos";
+import { ITodo } from "../../types/todos/todo.type";
+
+interface TodosFilterProps {
+  todos: ITodo[];
+}
 
 const filters = [{ value: "All" }, { value: "Active" }, { value: "Primary" }];
 
-const Filter = () => {
+const Filter = ({ todos }: TodosFilterProps) => {
   const dispatch = useAppDispatch();
   const currentFilter = useAppSelector(selectFilterState);
 
   const onFilterChange = (value: string) => {
     dispatch(
       todosActions.onFilterChange({
-        initialTodos: todosData,
-        filter: value.toUpperCase(),
+        initialTodos: todos,
+        filter: value,
       })
     );
   };

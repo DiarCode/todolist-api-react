@@ -10,6 +10,8 @@ interface CategoriesTasksState {
   filter: string;
 }
 
+const defaulFilter = "ALL";
+
 // Define the initial state using that type
 const initialState: CategoriesTasksState = {
   category: null,
@@ -22,46 +24,31 @@ export const categoriesTasksSlice = createSlice({
   initialState,
   reducers: {
     initTodos: (state, action: PayloadAction<{ todos: ITodo[] }>) => {
+      state.category = null;
       state.todos = action.payload.todos;
+      state.filter = defaulFilter;
     },
     selectCategory: (
       state,
       action: PayloadAction<{ todos: ITodo[]; category: ITodoCategory }>
     ) => {
       state.category = action.payload.category;
-      const allTodos = action.payload.todos;
-
-      const filteredTodos =
-        allTodos?.filter(todo => todo?.category_id === state.category?.id) ||
-        [];
-
-      state.todos = filteredTodos;
-    },
-    resetCategories: (state, action: PayloadAction<{ todos: ITodo[] }>) => {
-      state.category = null;
-      state.todos = action.payload.todos || [];
-      state.filter = "ALL";
+      state.todos = action.payload.todos;
+      state.filter = defaulFilter;
     },
     onFilterChange: (
       state,
       action: PayloadAction<{ initialTodos: ITodo[]; filter: string }>
     ) => {
-      const filterValue = action.payload.filter;
+      const filterValue = action.payload.filter.toUpperCase();
       const initialTodos = action.payload.initialTodos;
 
       if (filterValue === "ACTIVE") {
-        state.todos = initialTodos
-          .filter(todo => todo.completed === false)
-          .filter(todo => todo?.category_id === state.category?.id);
+        state.todos = initialTodos.filter(todo => todo.completed === false);
       } else if (filterValue === "PRIMARY") {
-        state.todos = initialTodos
-          .filter(todo => todo.is_prior === true)
-          .filter(todo => todo?.category_id === state.category?.id);
+        state.todos = initialTodos.filter(todo => todo.is_prior === true);
       } else if (filterValue === "ALL") {
-        state.todos =
-          initialTodos.filter(
-            todo => todo?.category_id === state.category?.id
-          ) || initialTodos;
+        state.todos = initialTodos;
       }
 
       state.filter = filterValue;
