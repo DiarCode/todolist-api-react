@@ -1,5 +1,4 @@
 import React from "react";
-import UserIcon from "../Icons/UserIcon";
 import { categoriesData } from "../../mock/categories";
 import CategoryItem from "./CategoryItem";
 import categoriesTasksActions from "../../store/slices/todosTasksSlice";
