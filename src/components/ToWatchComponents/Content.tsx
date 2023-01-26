@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../Navbar/Navbar";
+import ToWatchList from "./ToWatchList";
 
 const Content = () => {
   return (
@@ -10,7 +11,7 @@ const Content = () => {
 
       <hr />
 
-      {/* <TodoList /> */}
+      <ToWatchList />
     </div>
   );
 };
