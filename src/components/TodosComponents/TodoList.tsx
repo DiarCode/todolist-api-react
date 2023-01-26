@@ -9,6 +9,7 @@ import Filter from "./Filter";
 import { todosData } from "../../mock/todos";
 
 const TodoList = () => {
+  //TODO: make query to retrieve initial todos in the category
   const category = useAppSelector(selectCategory);
   const todos = useAppSelector(selectTodos);
 

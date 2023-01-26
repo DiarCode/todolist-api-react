@@ -4,6 +4,7 @@ import CategoryItem from "./CategoryItem";
 import SidebarUserInfo from "../SidebarUserInfo/SidebarUserInfo";
 
 const Sidebar = () => {
+  // TODO: Query all categories
   const renderedCategories = categoriesData.map(category => (
     <CategoryItem key={category.id} data={category} />
   ));
