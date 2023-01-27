@@ -28,6 +28,6 @@
     "noUnusedLocals": false, // Report errors on unused local variables.
     "noUnusedParameters": false // Report errors on unused parameters in functions
   },
-  "include": ["./**/*.ts"],
+  "include": ["./**/*.ts", "tailwind.config.js"],
   "exclude": ["node_modules/**/*"]
 }

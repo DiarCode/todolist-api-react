@@ -5,13 +5,24 @@ import { Link } from "react-router-dom";
 const SignUpPage = () => {
   return (
     <Layout>
-      <div className="w-1/3 h-[60%] bg-gray-100 rounded-lg p-7 py-9 ">
+      <div className="w-1/5 h-[60%] bg-gray-100 rounded-lg p-7 py-9 ">
         <div className="flex flex-col h-full">
-          <h1 className="font-semibold text-2xl uppercase text-center">
+          <h1 className="font-semibold text-2xl uppercase text-center text-[#406ffa]">
             Sign Up
           </h1>
 
           <div className="flex flex-col gap-y-6 mt-10">
+            <div className="flex flex-col gap-y-1">
+              <label className="px-4" htmlFor="name">
+                Name
+              </label>
+              <input
+                className="w-full px-4 py-2 rounded-lg border-[0.1px] border-black"
+                type="text"
+                name="name"
+                placeholder="Alexander"
+              />
+            </div>
             <div className="flex flex-col gap-y-1">
               <label className="px-4" htmlFor="email">
                 Email

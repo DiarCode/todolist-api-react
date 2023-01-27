@@ -1,9 +1,16 @@
 import React from "react";
 import { navbarLinks } from "../../shared/links";
 import { Link, useLocation } from "react-router-dom";
+import { useAppDispatch } from "../../store/store";
+import authActions from "../../store/slices/authSlice";
 
 const Navbar = () => {
   const { pathname } = useLocation();
+  const dispatch = useAppDispatch();
+
+  const onLogoutClick = () => {
+    dispatch(authActions.removeAuth());
+  };
 
   const renderedNavbarLinks = navbarLinks.map((link, index) => {
     const isPathMatch = pathname === link.path;
@@ -22,6 +29,10 @@ const Navbar = () => {
       </div>
       <div className="flex items-center gap-x-7 uppercase text-gray-400">
         {renderedNavbarLinks}
+
+        <button onClick={onLogoutClick}>
+          <p className="uppercase text-gray-400">Logout</p>
+        </button>
       </div>
     </div>
   );
