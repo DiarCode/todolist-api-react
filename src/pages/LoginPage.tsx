@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 const LoginPage = () => {
   return (
     <Layout>
-      <div className="w-1/3 h-[60%] bg-gray-100 rounded-lg p-7 py-9 ">
+      <div className="w-1/5 h-[50%] bg-gray-100 rounded-lg p-7 py-9">
         <div className="flex flex-col h-full">
-          <h1 className="font-semibold text-2xl uppercase text-center">
+          <h1 className="font-semibold text-2xl uppercase text-center text-[#406ffa]">
             Login
           </h1>
 

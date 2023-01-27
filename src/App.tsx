@@ -8,6 +8,7 @@ import { useAppDispatch } from "./store/store";
 import todosActions from "./store/slices/todosTasksSlice";
 import { todosData } from "./mock/todos";
 import ToWatchPage from "./pages/ToWatchPage";
+import AuthProtectedRoutes from "./pages/ProtectedRoutes/AuthProtectedRoutes";
 
 const ToWatchModal = React.lazy(
   () => import("./components/ToWatchComponents/Modals/TowatchModal")
@@ -34,8 +35,11 @@ function App() {
 
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/todo" element={<TodosPage />} />
-        <Route path="/towatch" element={<ToWatchPage />} />
+
+        <Route element={<AuthProtectedRoutes />}>
+          <Route path="/todo" element={<TodosPage />} />
+          <Route path="/towatch" element={<ToWatchPage />} />
+        </Route>
 
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />

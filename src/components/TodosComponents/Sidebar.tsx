@@ -28,7 +28,7 @@ const Sidebar = () => {
 
         <div className="flex flex-col gap-y-5">
           <p className="font-bold text-center">Categories</p>
-          <div className="max-h-[15rem] flex flex-col justify-start gap-y-2 overflow-y-scroll">
+          <div className="max-h-[15rem] flex flex-col justify-start gap-y-2 overflow-y-auto">
             {renderedCategories}
           </div>
         </div>

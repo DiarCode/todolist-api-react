@@ -4,12 +4,14 @@ import type { TypedUseSelectorHook } from "react-redux";
 import { createTaskModalReducer } from "./slices/createTaskSlice";
 import { categoriesTasksReducer } from "./slices/todosTasksSlice";
 import { createTowatchModalReducer } from "./slices/towatchSlice";
+import { authReducer } from "./slices/authSlice";
 
 export const store = configureStore({
   reducer: {
     createTaskModal: createTaskModalReducer,
     categoryTasksSlice: categoriesTasksReducer,
     towatchModal: createTowatchModalReducer,
+    authSlice: authReducer,
   },
 });
 

@@ -24,7 +24,7 @@ const CategoryItem = ({ data }: CategoryItemProps) => {
       onClick={onCategoryClick}
       className="flex items-center gap-x-2 cursor-pointer"
     >
-      <span className={`w-2 h-6 bg-[${data.color}]`} />
+      <span className={`w-2 h-6 bg-${data.color}`} />
       <p>{data.name}</p>
     </div>
   );
