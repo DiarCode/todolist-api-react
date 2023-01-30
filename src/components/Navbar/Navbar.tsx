@@ -10,6 +10,7 @@ const Navbar = () => {
 
   const onLogoutClick = () => {
     dispatch(authActions.removeAuth());
+    localStorage.clear();
   };
 
   const renderedNavbarLinks = navbarLinks.map((link, index) => {

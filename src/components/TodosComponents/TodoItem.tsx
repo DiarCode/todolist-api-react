@@ -20,7 +20,7 @@ const TodoItem = ({ data }) => {
       </div>
       <div>
         <p>{data.title}</p>
-        <p className="text-gray-400 text-sm">{data.created_at}</p>
+        <p className="text-gray-400 text-sm">{data.created_at.toString()}</p>
       </div>
     </div>
   );

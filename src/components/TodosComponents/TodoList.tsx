@@ -24,7 +24,10 @@ const TodoList = () => {
     <>
       <div className="flex items-center justify-between py-7">
         <div className="flex items-center gap-x-3">
-          <span className={`w-2 h-8 bg-[${categoryColor}]`} />
+          <span
+            className="w-2 h-8"
+            style={{ backgroundColor: categoryColor }}
+          />
           <p className="text-2xl">{categoryName}</p>
         </div>
 

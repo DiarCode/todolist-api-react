@@ -3,20 +3,22 @@ import { RootState } from "../store";
 import { ITodoCategory } from "src/types/todos/category.type";
 import { ITodo } from "src/types/todos/todo.type";
 
-// Define a type for the slice state
 interface CategoriesTasksState {
   category: ITodoCategory | null;
   todos: ITodo[];
   filter: string;
 }
 
-const defaulFilter = "ALL";
+const FILTERS = {
+  ALL: "ALL",
+  NEW: "NEW",
+  PRIMARY: "PRIMARY",
+};
 
-// Define the initial state using that type
 const initialState: CategoriesTasksState = {
   category: null,
   todos: [],
-  filter: "ALL",
+  filter: FILTERS.ALL,
 };
 
 export const categoriesTasksSlice = createSlice({
@@ -26,7 +28,7 @@ export const categoriesTasksSlice = createSlice({
     initTodos: (state, action: PayloadAction<{ todos: ITodo[] }>) => {
       state.category = null;
       state.todos = action.payload.todos;
-      state.filter = defaulFilter;
+      state.filter = FILTERS.ALL;
     },
     selectCategory: (
       state,
@@ -34,7 +36,7 @@ export const categoriesTasksSlice = createSlice({
     ) => {
       state.category = action.payload.category;
       state.todos = action.payload.todos;
-      state.filter = defaulFilter;
+      state.filter = FILTERS.ALL;
     },
     onFilterChange: (
       state,
@@ -43,11 +45,18 @@ export const categoriesTasksSlice = createSlice({
       const filterValue = action.payload.filter.toUpperCase();
       const initialTodos = action.payload.initialTodos;
 
-      if (filterValue === "ACTIVE") {
-        state.todos = initialTodos.filter(todo => todo.completed === false);
-      } else if (filterValue === "PRIMARY") {
+      if (filterValue === FILTERS.NEW) {
+        //TODO: After normalization change JSON parse
+        const arr = initialTodos.sort((a, b) => {
+          var dateA = new Date(a.created_at).getTime();
+          var dateB = new Date(b.created_at).getTime();
+          return dateA > dateB ? 1 : -1;
+        });
+
+        console.log(arr);
+      } else if (filterValue === FILTERS.PRIMARY) {
         state.todos = initialTodos.filter(todo => todo.is_prior === true);
-      } else if (filterValue === "ALL") {
+      } else if (filterValue === FILTERS.ALL) {
         state.todos = initialTodos;
       }
 

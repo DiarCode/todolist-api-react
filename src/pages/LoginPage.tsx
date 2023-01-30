@@ -1,11 +1,65 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout/Layout";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { ILogin, IUser } from "../types/auth/user.type";
+import { login } from "../api/auth/auth.api";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import authSliceActions, { selectAuthUser } from "../store/slices/authSlice";
+import LoadingScreen from "../components/LoadingComponent/LoadingScreen";
 
 const LoginPage = () => {
+  const user = useAppSelector(selectAuthUser);
+  const dispatch = useAppDispatch();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const isAuth = user !== null;
+
+    if (isAuth) {
+      navigate(-1);
+    }
+  }, [navigate, user]);
+
+  const onLoginClick = async () => {
+    const values = [email, password];
+    if (values.some(value => value === "")) {
+      return;
+    }
+
+    const loginDto: ILogin = {
+      email,
+      password,
+    };
+
+    const res = await login(loginDto);
+
+    if (res.code !== 200) {
+      setError(res.message);
+      return;
+    }
+
+    const data = res.data;
+    console.log("data", data);
+    const user: IUser = {
+      id: data.user_id,
+      email: data.email,
+      name: data.name,
+    };
+
+    dispatch(authSliceActions.setAuth({ user, token: data.token }));
+    localStorage.setItem("token", JSON.stringify(data.token));
+    localStorage.setItem("user_id", JSON.stringify(user.id));
+
+    navigate("/");
+  };
+
   return (
     <Layout>
-      <div className="w-1/5 h-[50%] bg-gray-100 rounded-lg p-7 py-9">
+      <div className="w-1/5 h-[55%] bg-gray-100 rounded-lg p-7 py-9">
         <div className="flex flex-col h-full">
           <h1 className="font-semibold text-2xl uppercase text-center text-[#406ffa]">
             Login
@@ -17,6 +71,8 @@ const LoginPage = () => {
                 Email
               </label>
               <input
+                value={email}
+                onChange={e => setEmail(e.target.value)}
                 className="w-full px-4 py-2 rounded-lg border-[0.1px] border-black"
                 type="text"
                 name="email"
@@ -28,6 +84,8 @@ const LoginPage = () => {
                 Password
               </label>
               <input
+                value={password}
+                onChange={e => setPassword(e.target.value)}
                 className="w-full px-4 py-2 rounded-lg border-[0.1px] border-black"
                 type="password"
                 name="email"
@@ -37,9 +95,16 @@ const LoginPage = () => {
           </div>
 
           <div className="mt-auto flex items-center justify-center">
-            <button className="px-10 py-2 rounded-lg bg-gradient-to-r from-[#406ffa] to-[#2948ff] text-gray-200">
+            <button
+              onClick={onLoginClick}
+              className="px-10 py-2 rounded-lg bg-gradient-to-r from-[#406ffa] to-[#2948ff] text-gray-200"
+            >
               Login
             </button>
+          </div>
+
+          <div className="mt-6 flex justify-center">
+            <p className="text-red-400">{error}</p>
           </div>
 
           <div className="flex justify-center items-center gap-x-2 mt-10">

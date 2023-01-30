@@ -8,7 +8,7 @@ interface TodosFilterProps {
   todos: ITodo[];
 }
 
-const filters = [{ value: "All" }, { value: "Active" }, { value: "Primary" }];
+const filters = [{ value: "All" }, { value: "New" }, { value: "Primary" }];
 
 const Filter = ({ todos }: TodosFilterProps) => {
   const dispatch = useAppDispatch();

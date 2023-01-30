@@ -4,11 +4,14 @@ import TodosPage from "./pages/TodosPage";
 import LoginPage from "./pages/LoginPage";
 import { Route, Routes } from "react-router-dom";
 import SignUpPage from "./pages/SignUpPage";
-import { useAppDispatch } from "./store/store";
+import { useAppDispatch, useAppSelector } from "./store/store";
 import todosActions from "./store/slices/todosTasksSlice";
 import { todosData } from "./mock/todos";
 import ToWatchPage from "./pages/ToWatchPage";
 import AuthProtectedRoutes from "./pages/ProtectedRoutes/AuthProtectedRoutes";
+
+import { getUserById } from "./api/user/user.api";
+import authSliceActions, { selectAuthUser } from "./store/slices/authSlice";
 
 const ToWatchModal = React.lazy(
   () => import("./components/ToWatchComponents/Modals/TowatchModal")
@@ -25,6 +28,17 @@ function App() {
 
   useEffect(() => {
     dispatch(todosActions.initTodos({ todos: todosData }));
+  }, [dispatch]);
+
+  useEffect(() => {
+    (async function initUser() {
+      const user_id = JSON.parse(localStorage.getItem("user_id") || "");
+      const token = JSON.parse(localStorage.getItem("token") || "");
+      const res = await getUserById(user_id);
+      if (res.code === 200) {
+        dispatch(authSliceActions.setAuth({ user: res.data, token }));
+      }
+    })();
   }, [dispatch]);
 
   return (
