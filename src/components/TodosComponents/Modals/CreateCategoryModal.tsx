@@ -55,15 +55,16 @@ const CreateCategoryModal = () => {
     const isColorSelected = selectedColorId === color.id;
     const bdColor = color.value;
 
-    let itemStyle = `w-10 h-10 rounded-full cursor-pointer bg-[#${bdColor}]`;
+    let itemStyle = `w-10 h-10 rounded-full cursor-pointer`;
 
     if (isColorSelected) {
-      itemStyle += " border-2 border-black";
+      itemStyle += " border-[3px] border-black";
     }
 
     return (
       <div
         key={color.id}
+        style={{ backgroundColor: bdColor }}
         onClick={() => onSelectColor(color.id)}
         className={itemStyle}
       />

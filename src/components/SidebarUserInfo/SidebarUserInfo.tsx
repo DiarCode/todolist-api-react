@@ -9,8 +9,8 @@ const SidebarUserInfo = () => {
     <div className="flex items-center flex-col gap-y-4">
       <UserIcon />
       <div className="flex items-center flex-col gap-y-1">
-        <p>{user.name}</p>
-        <p className="text-gray-400">{user.email}</p>
+        <p>{user?.name}</p>
+        <p className="text-gray-400">{user?.email}</p>
       </div>
     </div>
   );

@@ -59,13 +59,13 @@ const LoginPage = () => {
 
   return (
     <Layout>
-      <div className="w-1/5 h-[55%] bg-gray-100 rounded-lg p-7 py-9">
+      <div className="w-1/4 bg-gray-100 rounded-lg p-7 py-9">
         <div className="flex flex-col h-full">
           <h1 className="font-semibold text-2xl uppercase text-center text-[#406ffa]">
             Login
           </h1>
 
-          <div className="flex flex-col gap-y-6 mt-10">
+          <div className="flex flex-col gap-y-6 mt-10 mb-10">
             <div className="flex flex-col gap-y-1">
               <label className="px-4" htmlFor="email">
                 Email
@@ -94,7 +94,7 @@ const LoginPage = () => {
             </div>
           </div>
 
-          <div className="mt-auto flex items-center justify-center">
+          <div className="mt-auto flex items-center justify-center mb-6">
             <button
               onClick={onLoginClick}
               className="px-10 py-2 rounded-lg bg-gradient-to-r from-[#406ffa] to-[#2948ff] text-gray-200"
@@ -103,11 +103,11 @@ const LoginPage = () => {
             </button>
           </div>
 
-          <div className="mt-6 flex justify-center">
+          <div className="flex justify-center mb-6">
             <p className="text-red-400">{error}</p>
           </div>
 
-          <div className="flex justify-center items-center gap-x-2 mt-10">
+          <div className="flex justify-center items-center gap-x-2">
             <p className="text-gray-400">Do not have an account?</p>
             <p className="text-[#406ffa] cursor-pointer">
               <Link to="/signup">Signup</Link>

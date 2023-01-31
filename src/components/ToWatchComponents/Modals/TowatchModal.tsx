@@ -60,7 +60,10 @@ const ToWatchModal = () => {
         onClick={() => onSelectCategory(category.id)}
         className={componentStyle}
       >
-        <span className={`w-2 h-6 bg-[${category.color}]`} />
+        <span
+          style={{ backgroundColor: category.color }}
+          className={`w-2 h-6`}
+        />
         <p>{category.name}</p>
       </div>
     );

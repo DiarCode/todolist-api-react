@@ -56,7 +56,8 @@ const CreateTaskModal = () => {
 
     let componentStyle = "flex items-center gap-x-2 cursor-pointer";
     if (isCategorySelected) {
-      componentStyle += " text-gray-100 bg-[#406ffa] rounded-md px-3 py-[2px]";
+      componentStyle +=
+        " text-gray-100 bg-[#ebeef9] text-black rounded-md px-3 py-[2px]";
     }
     return (
       <div
@@ -64,7 +65,10 @@ const CreateTaskModal = () => {
         onClick={() => onSelectCategory(category.id)}
         className={componentStyle}
       >
-        <span className={`w-2 h-6 bg-[${category.color}]`} />
+        <span
+          style={{ backgroundColor: category.color }}
+          className={`w-2 h-6`}
+        />
         <p>{category.name}</p>
       </div>
     );
