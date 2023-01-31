@@ -4,13 +4,19 @@ import createTaskModalActions, {
   selectIsCategoryOpen,
 } from "../../../store/slices/createTaskSlice";
 import { colorsData } from "../../../mock/colors";
+import { creaeteTodoCategory } from "../../../api/categories/categories";
+import { selectAuthUser } from "../../../store/slices/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const CreateCategoryModal = () => {
+  const user = useAppSelector(selectAuthUser);
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector(selectIsCategoryOpen);
+  const navigate = useNavigate();
 
   const [selectedColorId, setSelectedColorId] = useState<number | null>(null);
   const [categoryTitle, setCategoryTitle] = useState<string>("");
+  const [error, setError] = useState("");
 
   const componentStyle = isOpen ? "flex" : "hidden";
 
@@ -31,27 +37,33 @@ const CreateCategoryModal = () => {
     setCategoryTitle("");
   };
 
-  const onFormSubmit = () => {
-    const checkValues = [categoryTitle, selectedColorId];
+  const onFormSubmit = async () => {
+    const checkValues = [categoryTitle, selectedColorId, user];
 
     if (!checkValues.every(value => value != null && value !== "")) {
-      console.log("error");
       return;
     }
 
     const color = colorsData.find(value => value.id === selectedColorId);
 
-    const obj = {
-      title: categoryTitle,
+    const dto = {
+      value: categoryTitle,
       color: color!.value,
+      user_id: user.id,
     };
 
-    console.log(obj);
+    const res = await creaeteTodoCategory(dto);
+    if (res.code !== 200) {
+      setError(res.message);
+      return;
+    }
+
     dispatch(createTaskModalActions.closeCategoryModal());
     onResetAllParameters();
+    navigate(0);
   };
 
-  const renderedColors = colorsData.map((color, index) => {
+  const renderedColors = colorsData.map(color => {
     const isColorSelected = selectedColorId === color.id;
     const bdColor = color.value;
 
@@ -93,11 +105,15 @@ const CreateCategoryModal = () => {
           <hr />
         </div>
 
-        <div className="flex flex-col mb-14">
+        <div className="flex flex-col mb-7">
           <p className="font-bold">Choose color</p>
           <div className="flex items-center gap-x-3 overflow-x-auto py-4">
             {renderedColors}
           </div>
+        </div>
+
+        <div className="mb-14">
+          <p className="text-red-400">{error}</p>
         </div>
 
         <div className="flex items-center justify-center">

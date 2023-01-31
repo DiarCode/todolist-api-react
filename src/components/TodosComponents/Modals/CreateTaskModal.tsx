@@ -3,16 +3,31 @@ import { useAppDispatch, useAppSelector } from "../../../store/store";
 import createTaskModalActions, {
   selectIsTodosOpen,
 } from "../../../store/slices/createTaskSlice";
-import { categoriesData } from "../../../mock/categories";
+import { useQuery } from "react-query";
+import { selectAuthUser } from "../../../store/slices/authSlice";
+import { getTodoCategories } from "../../../api/categories/categories";
+import { createTodo } from "../../../api/todos/todos";
+import { CreateTodoDto } from "../../../types/todos/todo.type";
+import { useNavigate } from "react-router-dom";
 
 const CreateTaskModal = () => {
+  const user = useAppSelector(selectAuthUser);
+  const { data: categories } = useQuery(
+    "todo-category",
+    () => getTodoCategories(user.id),
+    {
+      enabled: user !== null,
+    }
+  );
+
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector(selectIsTodosOpen);
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
 
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
-    null
-  );
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number>(-1);
   const [todoTitle, setTodoTitle] = useState<string>("");
+  const [priority, setPriority] = useState(false);
 
   const componentStyle = isOpen ? "flex" : "hidden";
 
@@ -24,34 +39,46 @@ const CreateTaskModal = () => {
     setSelectedCategoryId(id);
   };
 
+  const onPriorityChange = () => {
+    setPriority(prev => !prev);
+  };
+
   const onTitleChange = (title: string) => {
     setTodoTitle(title);
   };
 
   const onResetAllParameters = () => {
-    setSelectedCategoryId(null);
+    setSelectedCategoryId(-1);
     setTodoTitle("");
   };
 
-  const onFormSubmit = () => {
+  const onFormSubmit = async () => {
     const checkValues = [todoTitle, selectedCategoryId];
 
-    if (!checkValues.every(value => value != null && value !== "")) {
-      console.log("error");
+    if (!checkValues.every(value => value != null && value !== -1)) {
       return;
     }
 
-    const obj = {
+    const dto: CreateTodoDto = {
       title: todoTitle,
+      priority: priority,
+      user_id: user.id,
       category_id: selectedCategoryId,
     };
 
-    console.log(obj);
+    const res = await createTodo(dto);
+
+    if (res.code !== 200) {
+      setError(res.message);
+      return;
+    }
+
     dispatch(createTaskModalActions.closeTodosModal());
     onResetAllParameters();
+    navigate(0);
   };
 
-  const renderedCategories = categoriesData.map((category, index) => {
+  const renderedCategories = categories?.data.map(category => {
     const isCategorySelected = selectedCategoryId === category.id;
 
     let componentStyle = "flex items-center gap-x-2 cursor-pointer";
@@ -69,7 +96,7 @@ const CreateTaskModal = () => {
           style={{ backgroundColor: category.color }}
           className={`w-2 h-6`}
         />
-        <p>{category.name}</p>
+        <p>{category.value}</p>
       </div>
     );
   });
@@ -96,11 +123,32 @@ const CreateTaskModal = () => {
           <hr />
         </div>
 
-        <div className="flex flex-col mb-14">
+        <div className="flex flex-col mb-5">
           <p className="font-bold">Choose category</p>
-          <div className="flex items-center gap-x-8 overflow-x-auto py-6">
+          <div className="flex items-center gap-x-8 overflow-x-auto py-4">
             {renderedCategories}
           </div>
+        </div>
+
+        <div className="flex flex-col mb-4">
+          <p className="font-bold">Priority</p>
+
+          <div className="flex items-center gap-x-2 py-4">
+            <input
+              type="radio"
+              className="w-5 h-5"
+              id="prior_input"
+              checked={priority}
+              onChange={() => {}}
+              onClick={onPriorityChange}
+            />
+
+            <label htmlFor="prior_input">Make task prior</label>
+          </div>
+        </div>
+
+        <div className="mb-14">
+          <p className="text-red-400">{error}</p>
         </div>
 
         <div className="flex items-center justify-center">

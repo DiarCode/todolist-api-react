@@ -3,22 +3,22 @@ import { ITodoCategory } from "src/types/todos/category.type";
 export const categoriesData: ITodoCategory[] = [
   {
     id: 1,
-    name: "Work",
+    value: "Work",
     color: "#5cb85c",
   },
   {
     id: 2,
-    name: "Shop",
+    value: "Shop",
     color: "#468499",
   },
   {
     id: 3,
-    name: "Routine",
+    value: "Routine",
     color: "#468499",
   },
   {
     id: 4,
-    name: "House",
+    value: "House",
     color: "#468499",
   },
 ];

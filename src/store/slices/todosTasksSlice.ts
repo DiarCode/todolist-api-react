@@ -5,11 +5,12 @@ import { ITodo } from "src/types/todos/todo.type";
 
 interface CategoriesTasksState {
   category: ITodoCategory | null;
+  initialTodos: ITodo[];
   todos: ITodo[];
   filter: string;
 }
 
-const FILTERS = {
+export const FILTERS = {
   ALL: "ALL",
   NEW: "NEW",
   PRIMARY: "PRIMARY",
@@ -17,6 +18,7 @@ const FILTERS = {
 
 const initialState: CategoriesTasksState = {
   category: null,
+  initialTodos: [],
   todos: [],
   filter: FILTERS.ALL,
 };
@@ -25,10 +27,9 @@ export const categoriesTasksSlice = createSlice({
   name: "categoriesTasksSlice",
   initialState,
   reducers: {
-    initTodos: (state, action: PayloadAction<{ todos: ITodo[] }>) => {
-      state.category = null;
-      state.todos = action.payload.todos;
-      state.filter = FILTERS.ALL;
+    addTodo: (state, action: PayloadAction<{ todo: ITodo }>) => {
+      state.initialTodos = [...state.initialTodos, action.payload.todo];
+      state.todos = [...state.todos, action.payload.todo];
     },
     selectCategory: (
       state,
@@ -36,31 +37,34 @@ export const categoriesTasksSlice = createSlice({
     ) => {
       state.category = action.payload.category;
       state.todos = action.payload.todos;
+      state.initialTodos = action.payload.todos;
       state.filter = FILTERS.ALL;
     },
-    onFilterChange: (
-      state,
-      action: PayloadAction<{ initialTodos: ITodo[]; filter: string }>
-    ) => {
-      const filterValue = action.payload.filter.toUpperCase();
-      const initialTodos = action.payload.initialTodos;
+    onFilterChange: (state, action: PayloadAction<{ filter: string }>) => {
+      const filterValue = action.payload.filter;
+      state.filter = filterValue;
+      const initialTodos = [...state.initialTodos];
 
       if (filterValue === FILTERS.NEW) {
-        //TODO: After normalization change JSON parse
-        const arr = initialTodos.sort((a, b) => {
+        state.todos = initialTodos.sort((a, b) => {
           var dateA = new Date(a.created_at).getTime();
           var dateB = new Date(b.created_at).getTime();
           return dateA > dateB ? 1 : -1;
         });
 
-        console.log(arr);
-      } else if (filterValue === FILTERS.PRIMARY) {
-        state.todos = initialTodos.filter(todo => todo.is_prior === true);
-      } else if (filterValue === FILTERS.ALL) {
-        state.todos = initialTodos;
+        return;
       }
 
-      state.filter = filterValue;
+      if (filterValue === FILTERS.PRIMARY) {
+        state.todos = initialTodos.filter(todo => todo.priority === true);
+
+        return;
+      }
+
+      if (filterValue === FILTERS.ALL) {
+        state.todos = state.initialTodos;
+        return;
+      }
     },
   },
 });
@@ -72,6 +76,9 @@ export const selectCategory = (state: RootState) =>
   state.categoryTasksSlice.category;
 
 export const selectTodos = (state: RootState) => state.categoryTasksSlice.todos;
+
+export const selectInitialTodos = (state: RootState) =>
+  state.categoryTasksSlice.initialTodos;
 
 export const selectFilterState = (state: RootState) =>
   state.categoryTasksSlice.filter;

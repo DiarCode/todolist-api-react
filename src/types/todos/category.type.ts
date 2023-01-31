@@ -1,5 +1,5 @@
 export interface ITodoCategory {
   id: number;
-  name: string;
+  value: string;
   color: string;
 }

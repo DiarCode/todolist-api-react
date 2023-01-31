@@ -6,12 +6,11 @@ import { Route, Routes } from "react-router-dom";
 import SignUpPage from "./pages/SignUpPage";
 import { useAppDispatch, useAppSelector } from "./store/store";
 import todosActions from "./store/slices/todosTasksSlice";
-import { todosData } from "./mock/todos";
 import ToWatchPage from "./pages/ToWatchPage";
 import AuthProtectedRoutes from "./pages/ProtectedRoutes/AuthProtectedRoutes";
 
 import { getUserById } from "./api/user/user.api";
-import authSliceActions, { selectAuthUser } from "./store/slices/authSlice";
+import authSliceActions from "./store/slices/authSlice";
 
 const ToWatchModal = React.lazy(
   () => import("./components/ToWatchComponents/Modals/TowatchModal")
@@ -25,10 +24,6 @@ const CreateCategoryModal = React.lazy(
 
 function App() {
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(todosActions.initTodos({ todos: todosData }));
-  }, [dispatch]);
 
   useEffect(() => {
     (async function initUser() {

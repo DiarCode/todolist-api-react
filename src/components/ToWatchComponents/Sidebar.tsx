@@ -1,15 +1,9 @@
 import React from "react";
-import UserIcon from "../Icons/UserIcon";
 import { categoriesData } from "../../mock/categories";
-import categoriesTasksActions from "../../store/slices/todosTasksSlice";
-import { useAppDispatch } from "../../store/store";
-import { todosData } from "../../mock/todos";
 import SidebarUserInfo from "../SidebarUserInfo/SidebarUserInfo";
 import CategoryItem from "./CategoryItem";
 
 const Sidebar = () => {
-  const dispatch = useAppDispatch();
-
   const renderedCategories = categoriesData.map(category => (
     <CategoryItem key={category.id} data={category} />
   ));

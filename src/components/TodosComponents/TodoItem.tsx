@@ -1,4 +1,5 @@
 import React from "react";
+import { formatDate } from "../../shared/dateFormatter";
 
 const TodoItem = ({ data }) => {
   const completedStyle =
@@ -7,7 +8,7 @@ const TodoItem = ({ data }) => {
   const priorStyle = " bg-red-100 border-[0.1px]";
 
   let buttonStyle = data.completed ? completedStyle : defaultStyle;
-  buttonStyle += data.is_prior && priorStyle;
+  buttonStyle += data.priority && priorStyle;
 
   return (
     <div
@@ -20,7 +21,9 @@ const TodoItem = ({ data }) => {
       </div>
       <div>
         <p>{data.title}</p>
-        <p className="text-gray-400 text-sm">{data.created_at.toString()}</p>
+        <p className="text-gray-400 text-sm">
+          {formatDate(data.created_at, "dddd, MMMM Do YYYY, h:mm")}
+        </p>
       </div>
     </div>
   );

@@ -1,27 +1,37 @@
 import React, { MouseEvent, useState } from "react";
 import { ITodoCategory } from "../../types/todos/category.type";
-import { useAppDispatch } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import categoriesTaskslActions from "../../store/slices/todosTasksSlice";
-import { todosData } from "../../mock/todos";
 import RemoveSolid from "../Icons/RemoveSolid";
+import { getTodosByCategory } from "../../api/todos/todos";
+import { selectAuthUser } from "../../store/slices/authSlice";
 
 interface CategoryItemProps {
   data: ITodoCategory;
 }
 
 const CategoryItem = ({ data }: CategoryItemProps) => {
+  const user = useAppSelector(selectAuthUser);
   const [isHoverd, setIsHovered] = useState(false);
+
   const dispatch = useAppDispatch();
 
   const deleteButtonStyle = isHoverd
     ? "opacity-100 w-[22px] -mb-[2px] transition-all duration-200"
     : "opacity-0 w-[22px] -mb-[2px]";
 
-  const onCategoryClick = () => {
+  const onCategoryClick = async () => {
+    const res = await getTodosByCategory(data.id, user.id);
+
+    if (res.code !== 200) {
+      return;
+    }
+
+    const todos = await res.data;
     dispatch(
       categoriesTaskslActions.selectCategory({
         category: data,
-        todos: todosData,
+        todos: todos,
       })
     );
   };
@@ -40,7 +50,7 @@ const CategoryItem = ({ data }: CategoryItemProps) => {
     >
       <div className="flex items-center gap-x-2">
         <span className="w-2 h-6" style={{ backgroundColor: data.color }} />
-        <p>{data.name}</p>
+        <p>{data.value}</p>
       </div>
 
       <div>

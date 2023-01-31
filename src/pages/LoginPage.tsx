@@ -5,7 +5,6 @@ import { ILogin, IUser } from "../types/auth/user.type";
 import { login } from "../api/auth/auth.api";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import authSliceActions, { selectAuthUser } from "../store/slices/authSlice";
-import LoadingScreen from "../components/LoadingComponent/LoadingScreen";
 
 const LoginPage = () => {
   const user = useAppSelector(selectAuthUser);
@@ -43,7 +42,6 @@ const LoginPage = () => {
     }
 
     const data = res.data;
-    console.log("data", data);
     const user: IUser = {
       id: data.user_id,
       email: data.email,

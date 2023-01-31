@@ -1,18 +1,24 @@
 import React from "react";
-import { categoriesData } from "../../mock/categories";
 import CategoryItem from "./CategoryItem";
 import SidebarUserInfo from "../SidebarUserInfo/SidebarUserInfo";
-import { useAppDispatch } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import createTaskModalActions from "../../store/slices/createTaskSlice";
 import { useQuery } from "react-query";
 import { getTodoCategories } from "../../api/categories/categories";
+import { selectAuthUser } from "../../store/slices/authSlice";
 
 const Sidebar = () => {
-  const { data: categories } = useQuery("todo-category", getTodoCategories);
+  const user = useAppSelector(selectAuthUser);
+  const { data: categories } = useQuery(
+    "todo-category",
+    () => getTodoCategories(user.id),
+    {
+      enabled: user !== null,
+    }
+  );
   const dispatch = useAppDispatch();
 
-  // TODO: Query all categories
-  const renderedCategories = categories?.data?.map(category => (
+  const renderedCategories = categories?.data.map(category => (
     <CategoryItem key={category.id} data={category} />
   ));
 

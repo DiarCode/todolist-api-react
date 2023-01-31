@@ -1,16 +1,29 @@
 import { IApiResponse } from "src/types/response/apiResponse";
 import { $api } from "../api";
 
-export const getTodoCategories = async () => {
-  const res = (await $api.get("/todo-categories")) as IApiResponse;
+export const getTodoCategories = async (userId: number) => {
+  const res = (await $api.get("/todo-category", {
+    params: {
+      user: userId,
+    },
+  })) as IApiResponse;
+
   return res;
 };
 
 export const creaeteTodoCategory = async (dto: {
   value: string;
   color: string;
-  userId: number;
+  user_id: number;
 }) => {
-  const res = (await $api.post("/todo-categories", dto)) as IApiResponse;
+  const res = (await $api.post("/todo-category", dto)) as IApiResponse;
+  return res;
+};
+
+export const deleteTodoCategory = async (categoryId: number) => {
+  const res = (await $api.delete(
+    `/todo-category/${categoryId}`
+  )) as IApiResponse;
+  
   return res;
 };

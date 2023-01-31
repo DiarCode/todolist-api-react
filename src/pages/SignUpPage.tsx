@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Layout from "../components/Layout/Layout";
 import { Link } from "react-router-dom";
 
 const SignUpPage = () => {
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
 
   return (
     <Layout>
@@ -55,9 +55,9 @@ const SignUpPage = () => {
             </button>
           </div>
 
-          <div className="flex justify-center mb-6">
+          {/* <div className="flex justify-center mb-6">
             <p className="text-red-400">{error}</p>
-          </div>
+          </div> */}
 
           <div className="flex justify-center items-center gap-x-2">
             <p className="text-gray-400">Already have an account?</p>

@@ -33,7 +33,6 @@ const ToWatchModal = () => {
     const checkValues = [selectedCategoryId];
 
     if (!checkValues.every(value => value != null)) {
-      console.log("error");
       return;
     }
 
@@ -42,7 +41,6 @@ const ToWatchModal = () => {
       category_id: selectedCategoryId,
     };
 
-    console.log(obj);
     dispatch(towatchModalActions.closeTowatchModal());
     onResetAllParameters();
   };
