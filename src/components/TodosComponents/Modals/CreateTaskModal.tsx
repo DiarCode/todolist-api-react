@@ -78,7 +78,7 @@ const CreateTaskModal = () => {
     navigate(0);
   };
 
-  const renderedCategories = categories?.data.map(category => {
+  const renderedCategories = categories?.data?.map(category => {
     const isCategorySelected = selectedCategoryId === category.id;
 
     let componentStyle = "flex items-center gap-x-2 cursor-pointer";

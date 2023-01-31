@@ -1,9 +1,62 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout/Layout";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { ISignup, IUser } from "../types/auth/user.type";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import authSliceActions, { selectAuthUser } from "../store/slices/authSlice";
+import { signup } from "../api/auth/auth.api";
 
 const SignUpPage = () => {
-  // const [error, setError] = useState("");
+  const user = useAppSelector(selectAuthUser);
+  const dispatch = useAppDispatch();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const isAuth = user !== null;
+
+    if (isAuth) {
+      navigate(-1);
+    }
+  }, [navigate, user]);
+
+  const onSignupClick = async () => {
+    const values = [email, password, name];
+    if (values.some(value => value === "")) {
+      return;
+    }
+
+    const signupDto: ISignup = {
+      name,
+      email,
+      password,
+    };
+
+    const res = await signup(signupDto);
+
+    if (res.code !== 200) {
+      setError(res.message);
+      return;
+    }
+
+    const data = res.data;
+    const user: IUser = {
+      id: data.user_id,
+      email: data.email,
+      name: data.name,
+    };
+
+    dispatch(authSliceActions.setAuth({ user, token: data.token }));
+    localStorage.setItem("token", JSON.stringify(data.token));
+    localStorage.setItem("user_id", JSON.stringify(user.id));
+
+    navigate("/");
+  };
 
   return (
     <Layout>
@@ -19,6 +72,8 @@ const SignUpPage = () => {
                 Name
               </label>
               <input
+                value={name}
+                onChange={e => setName(e.target.value)}
                 className="w-full px-4 py-2 rounded-lg border-[0.1px] border-black"
                 type="text"
                 name="name"
@@ -30,6 +85,8 @@ const SignUpPage = () => {
                 Email
               </label>
               <input
+                value={email}
+                onChange={e => setEmail(e.target.value)}
                 className="w-full px-4 py-2 rounded-lg border-[0.1px] border-black"
                 type="text"
                 name="email"
@@ -41,6 +98,8 @@ const SignUpPage = () => {
                 Password
               </label>
               <input
+                value={password}
+                onChange={e => setPassword(e.target.value)}
                 className="w-full px-4 py-2 rounded-lg border-[0.1px] border-black"
                 type="password"
                 name="email"
@@ -50,14 +109,17 @@ const SignUpPage = () => {
           </div>
 
           <div className="mt-auto flex items-center justify-center mb-6">
-            <button className="px-10 py-2 rounded-lg bg-gradient-to-r from-[#406ffa] to-[#2948ff] text-gray-200">
+            <button
+              onClick={onSignupClick}
+              className="px-10 py-2 rounded-lg bg-gradient-to-r from-[#406ffa] to-[#2948ff] text-gray-200"
+            >
               Signup
             </button>
           </div>
 
-          {/* <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-6">
             <p className="text-red-400">{error}</p>
-          </div> */}
+          </div>
 
           <div className="flex justify-center items-center gap-x-2">
             <p className="text-gray-400">Already have an account?</p>
