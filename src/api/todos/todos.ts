@@ -1,6 +1,6 @@
 import { IApiResponse } from "src/types/response/apiResponse";
 import { $api } from "../api";
-import { CreateTodoDto} from "src/types/todos/todo.type";
+import { CreateTodoDto } from "src/types/todos/todo.type";
 
 export const getAllTodos = async (userId: number) => {
   const res = (await $api.get("/todos", {
@@ -23,5 +23,11 @@ export const getTodosByCategory = async (
 
 export const createTodo = async (dto: CreateTodoDto) => {
   const res = (await $api.post("/todos", dto)) as IApiResponse;
+  return res;
+};
+
+export const completeTodo = async (id: number) => {
+  const res = (await $api.put(`/todos/complete/${id}`)) as IApiResponse;
+
   return res;
 };

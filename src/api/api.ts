@@ -1,6 +1,5 @@
 import axios from "axios";
 import { QueryClient } from "react-query";
-import { IApiResponse } from "src/types/response/apiResponse";
 
 export const BASE_URL = "http://127.0.0.1:8080/api/v1";
 

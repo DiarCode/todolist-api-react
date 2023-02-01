@@ -56,7 +56,7 @@ const LoginPage = () => {
   };
 
   return (
-    <Layout>
+    <Layout title={"Login"}>
       <div className="w-1/4 bg-gray-100 rounded-lg p-7 py-9">
         <div className="flex flex-col h-full">
           <h1 className="font-semibold text-2xl uppercase text-center text-[#406ffa]">
@@ -105,11 +105,19 @@ const LoginPage = () => {
             <p className="text-red-400">{error}</p>
           </div>
 
-          <div className="flex justify-center items-center gap-x-2">
+          <div className="flex justify-center items-center gap-x-2 mb-2">
             <p className="text-gray-400">Do not have an account?</p>
             <p className="text-[#406ffa] cursor-pointer">
               <Link to="/signup">Signup</Link>
             </p>
+          </div>
+
+          <div className="">
+            <Link to={"/"}>
+              <p className="text-gray-400 hover:text-gray-500 transition-all duration-200 cursor-pointer text-center">
+                Back to Home
+              </p>
+            </Link>
           </div>
         </div>
       </div>

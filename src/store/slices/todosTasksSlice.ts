@@ -49,7 +49,7 @@ export const categoriesTasksSlice = createSlice({
         state.todos = initialTodos.sort((a, b) => {
           var dateA = new Date(a.created_at).getTime();
           var dateB = new Date(b.created_at).getTime();
-          return dateA > dateB ? 1 : -1;
+          return dateA < dateB ? 1 : -1;
         });
 
         return;
