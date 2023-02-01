@@ -1,15 +1,30 @@
 import React from "react";
-import { useAppSelector } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 import Filter from "./Filter";
-import {
+import towatchesActions, {
   selectTowatchCategory,
   selectTowatches,
 } from "../../store/slices/towatchSlice";
 import TowatchItem from "./ToWatchItem";
+import { useQuery } from "react-query";
+import { getAllTowatches } from "../../api/towatches/towatches";
 
 const TowatchList = () => {
+  const dispatch = useAppDispatch();
+  const { data: initialTodos } = useQuery("initial-towatches", getAllTowatches);
   const category = useAppSelector(selectTowatchCategory);
   const towatches = useAppSelector(selectTowatches);
+
+  React.useEffect(() => {
+    if (initialTodos !== undefined && initialTodos.code === 200) {
+      dispatch(
+        towatchesActions.selectCategory({
+          towatches: initialTodos.data,
+          category: { value: "Animes", color: "blue" },
+        })
+      );
+    }
+  }, [dispatch, initialTodos]);
 
   const renderedItems = towatches?.map(item => (
     <TowatchItem key={item.id} data={item} />
@@ -30,7 +45,7 @@ const TowatchList = () => {
       </div>
 
       <div className="relative">
-        <div className="max-h-[340px] flex flex-col gap-y-7 overflow-y-auto">
+        <div className="w-full max-h-[570px] flex flex-wrap gap-x-5 gap-y-3 overflow-y-auto">
           {renderedItems}
         </div>
       </div>

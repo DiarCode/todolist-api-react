@@ -3,6 +3,7 @@ import StarSolid from "../Icons/StarSolid";
 import toWatchModalActions from "../../store/slices/towatchModalSlice";
 import { useAppDispatch } from "../../store/store";
 import { IToWatch } from "../../types/towatch/towatch.type";
+import { formatDate } from "../../shared/dateFormatter";
 
 interface ToWatchItemProps {
   data: IToWatch;
@@ -25,11 +26,14 @@ const ToWatchItem = ({ data }: ToWatchItemProps) => {
       <div className="rounded-xl flex flex-col justify-between h-full">
         <div className="mt-auto flex flex-col">
           <div className="flex items-center gap-1">
-            <p className="text-white text-lg sm:text-2xl font-bold">9.1</p>
+            <p className="text-white text-lg sm:text-2xl font-bold">
+              {data.rating}
+            </p>
             <StarSolid fill={"#406ffa"} className="w-6 h-6" />
           </div>
           <p className="text-white text-xs sm:text-sm font-normal truncate text-ellipsis overflow-x-hidden">
-            Oct 2022 - Dec 2022
+            {formatDate(data.start_date, "MMM YYYY")} -
+            {formatDate(data.start_date, "MMM YYYY")}
           </p>
           <p className="text-white text-xs sm:text-sm font-normal truncate text-ellipsis overflow-x-hidden">
             13 episodes
@@ -51,9 +55,10 @@ const ToWatchItem = ({ data }: ToWatchItemProps) => {
           {hoveredDetailsContent}
           <picture>
             <img
-              src="https://cdn.myanimelist.net/images/anime/1764/126627.jpg"
+              loading="lazy"
+              src={data.image}
               className="rounded-xl duration-200 bg-gray-500 object-cover h-full w-[120px] sm:w-[177px]"
-              alt=""
+              alt={data.title}
             />
           </picture>
         </div>
@@ -64,10 +69,10 @@ const ToWatchItem = ({ data }: ToWatchItemProps) => {
             onMouseLeave={() => setIsHovered(false)}
             className="cursor-pointer truncate text-ellipsis overflow-x-hidden text-sm sm:text-base text-black font-medium"
           >
-            Bleach: Sennen Kessen-hen
+            {data.title}
           </p>
           <p className="truncate text-ellipsis overflow-x-hidden text-xs sm:text-sm  text-[#406ffa]">
-            TV Tokyo
+            {data.studio}
           </p>
         </div>
       </div>

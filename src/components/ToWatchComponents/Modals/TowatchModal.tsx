@@ -3,12 +3,20 @@ import { useAppDispatch, useAppSelector } from "../../../store/store";
 import towatchModalActions, {
   selectIsTowatchModalOpen,
 } from "../../../store/slices/towatchModalSlice";
-import { categoriesData } from "../../../mock/categories";
+import { useQuery } from "react-query";
+import { getTowatchCategories } from "../../../api/categories/categories";
+import { selectAuthUser } from "../../../store/slices/authSlice";
 
 const ToWatchModal = () => {
+  const user = useAppSelector(selectAuthUser);
   const dispatch = useAppDispatch();
-  const { isTowatchModalOpen: isOpen, towatchItem: data } = useAppSelector(
-    selectIsTowatchModalOpen
+  const { isOpen, data } = useAppSelector(selectIsTowatchModalOpen);
+  const { data: categories } = useQuery(
+    "towatch-category",
+    () => getTowatchCategories(user.id),
+    {
+      enabled: user !== null,
+    }
   );
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
@@ -45,7 +53,7 @@ const ToWatchModal = () => {
     onResetAllParameters();
   };
 
-  const renderedCategories = categoriesData.map((category, index) => {
+  const renderedCategories = categories?.data.map(category => {
     const isCategorySelected = selectedCategoryId === category.id;
 
     let componentStyle = "flex items-center gap-x-2 cursor-pointer";
@@ -80,7 +88,7 @@ const ToWatchModal = () => {
         className="w-2/4 bg-white rounded-xl p-9"
       >
         <div className="mb-7">
-          <p className="text-4xl">{data?.title}</p>
+          <p className="text-4xl mb-5">{data?.title}</p>
           <hr />
         </div>
 

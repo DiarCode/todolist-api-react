@@ -37,3 +37,12 @@ export const getTowatchCategories = async (userId: number) => {
 
   return res;
 };
+
+export const creaeteTowatchCategory = async (dto: {
+  value: string;
+  color: string;
+  user_id: number;
+}) => {
+  const res = (await $api.post("/towatch-category", dto)) as IApiResponse;
+  return res;
+};

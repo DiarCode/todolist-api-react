@@ -44,6 +44,7 @@ const HomePage = () => {
     <div className="h-full flex items-center justify-center flex-col gap-y-7">
       <div className="flex items-center justify-center">
         <img
+          loading="lazy"
           className="w-[300px] max-h-[350px] object-cover rounded-3xl"
           src={homeImage}
           alt="cat"

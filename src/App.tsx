@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import HomePage from "./pages/HomePage";
 import TodosPage from "./pages/TodosPage";
 import LoginPage from "./pages/LoginPage";
 import { Route, Routes } from "react-router-dom";
 import SignUpPage from "./pages/SignUpPage";
-import { useAppDispatch, useAppSelector } from "./store/store";
-import todosActions from "./store/slices/todosTasksSlice";
+import { useAppDispatch } from "./store/store";
 import ToWatchPage from "./pages/ToWatchPage";
 import AuthProtectedRoutes from "./pages/ProtectedRoutes/AuthProtectedRoutes";
 
@@ -21,11 +20,14 @@ const CreateTaskModal = React.lazy(
 const CreateCategoryModal = React.lazy(
   () => import("./components/TodosComponents/Modals/CreateCategoryModal")
 );
+const CreateTowatchCategoryModal = React.lazy(
+  () => import("./components/ToWatchComponents/Modals/TowatchCategoryModal")
+);
 
 function App() {
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
+  React.useEffect(() => {
     (async function initUser() {
       const user_id = JSON.parse(localStorage.getItem("user_id") || "");
       const token = JSON.parse(localStorage.getItem("token") || "");
@@ -41,6 +43,7 @@ function App() {
       <ToWatchModal />
       <CreateTaskModal />
       <CreateCategoryModal />
+      <CreateTowatchCategoryModal />
 
       <Routes>
         <Route path="/" element={<HomePage />} />

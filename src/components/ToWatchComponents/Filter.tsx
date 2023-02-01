@@ -1,7 +1,9 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import todosActions from "../../store/slices/todosTasksSlice";
-import { FILTERS, selectTowatchFilterState } from "../../store/slices/towatchSlice";
+import towatchesSliceActions, {
+  FILTERS,
+  selectTowatchFilterState,
+} from "../../store/slices/towatchSlice";
 
 const Filter = () => {
   const dispatch = useAppDispatch();
@@ -9,7 +11,7 @@ const Filter = () => {
 
   const onFilterChange = (value: string) => {
     dispatch(
-      todosActions.onFilterChange({
+      towatchesSliceActions.onFilterChange({
         filter: value,
       })
     );

@@ -12,8 +12,6 @@ interface CategoryItemProps {
 
 const CategoryItem = ({ data }: CategoryItemProps) => {
   const user = useAppSelector(selectAuthUser);
-  const navigate = useNavigate();
-
   const dispatch = useAppDispatch();
 
   const onCategoryClick = async () => {

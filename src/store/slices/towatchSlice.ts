@@ -11,9 +11,9 @@ interface TowatchSliceState {
 }
 
 export const FILTERS = {
-  ALL: "POPULAR",
-  NEW: "RECENT",
-  PRIMARY: "PUBLISHED",
+  ALL: "ALL",
+  POPULAR: "POPULAR",
+  NEW: "NEW",
 };
 
 const initialState: TowatchSliceState = {
@@ -50,6 +50,25 @@ export const towatchesSlice = createSlice({
       const filterValue = action.payload.filter;
       state.filter = filterValue;
       const initialTowatches = [...state.initialTowatches];
+
+      if (filterValue === FILTERS.ALL) {
+        state.towatches = initialTowatches;
+        return;
+      }
+      if (filterValue === FILTERS.NEW) {
+        state.towatches = initialTowatches.sort((a, b) => {
+          var dateA = new Date(a.start_date).getTime();
+          var dateB = new Date(b.start_date).getTime();
+          return dateA < dateB ? 1 : -1;
+        });
+        return;
+      }
+      if (filterValue === FILTERS.POPULAR) {
+        state.towatches = initialTowatches.sort((a, b) => {
+          return a.rating > b.rating ? 1 : -1;
+        });
+        return;
+      }
     },
   },
 });

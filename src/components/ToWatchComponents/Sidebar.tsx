@@ -5,7 +5,9 @@ import { useAppDispatch, useAppSelector } from "../../store/store";
 import { useQuery } from "react-query";
 import { getTowatchCategories } from "../../api/categories/categories";
 import { selectAuthUser } from "../../store/slices/authSlice";
-import { getAllTowatches, getTowatchesByCategory } from "../../api/towatches/towatches";
+import { getAllTowatches } from "../../api/towatches/towatches";
+import towatchesSliceActions from "../../store/slices/towatchSlice";
+import towatchModalSliceActions from "../../store/slices/towatchModalSlice";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
@@ -23,7 +25,23 @@ const Sidebar = () => {
   ));
 
   const onTowatchesClick = async () => {
-    // const res = await getAllTowatches()
+    const res = await getAllTowatches();
+
+    if (res.code !== 200) {
+      return;
+    }
+
+    console.log(res);
+    dispatch(
+      towatchesSliceActions.selectCategory({
+        category: { value: "Animes", color: "blue" },
+        towatches: res.data,
+      })
+    );
+  };
+
+  const onAddButtonClick = () => {
+    dispatch(towatchModalSliceActions.showCategoryModal());
   };
 
   return (
@@ -38,11 +56,11 @@ const Sidebar = () => {
         <div className="flex flex-col gap-y-5 mb-4">
           <p className="font-bold text-center">Towatches</p>
           <div className="max-h-[15rem] flex flex-col justify-start overflow-y-auto">
-            <div
-              onClick={onTowatchesClick}
-              className="hover:bg-[#ebeef9] flex items-center justify-between cursor-pointer p-2 rounded-lg"
-            >
-              <div className="flex items-center gap-x-2">
+            <div className="hover:bg-[#ebeef9] flex items-center justify-between cursor-pointer p-2 rounded-lg">
+              <div
+                className="flex items-center gap-x-2"
+                onClick={onTowatchesClick}
+              >
                 <p>Animes</p>
               </div>
             </div>
@@ -56,6 +74,15 @@ const Sidebar = () => {
           <div className="max-h-[15rem] flex flex-col justify-start overflow-y-auto">
             {renderedCategories}
           </div>
+        </div>
+
+        <div className="mt-auto flex items-center justify-center">
+          <button
+            onClick={onAddButtonClick}
+            className="px-6 py-2 rounded-lg bg-gradient-to-r text-gray-200"
+          >
+            + Category
+          </button>
         </div>
       </div>
     </div>

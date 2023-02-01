@@ -1,11 +1,8 @@
 import { IApiResponse } from "src/types/response/apiResponse";
 import { $api } from "../api";
 
-export const getAllTowatches = async (userId: number) => {
-  const res = (await $api.get("/towatch", {
-    params: { user: userId },
-  })) as IApiResponse;
-
+export const getAllTowatches = async () => {
+  const res = (await $api.get("/towatch")) as IApiResponse;
   return res;
 };
 

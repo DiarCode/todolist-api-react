@@ -1,9 +1,10 @@
 export interface IToWatch {
   id: number;
   title: string;
-  startDate: string;
-  finishDate: string;
+  start_date: Date;
+  finish_date: Date;
   episodes: number;
   rating: number;
-  producer: string;
+  studio: string;
+  image: string;
 }
