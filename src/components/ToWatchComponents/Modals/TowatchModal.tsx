@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../store/store";
 import towatchModalActions, {
   selectIsTowatchModalOpen,
-} from "../../../store/slices/towatchSlice";
+} from "../../../store/slices/towatchModalSlice";
 import { categoriesData } from "../../../mock/categories";
 
 const ToWatchModal = () => {

@@ -24,6 +24,16 @@ export const deleteTodoCategory = async (categoryId: number) => {
   const res = (await $api.delete(
     `/todo-category/${categoryId}`
   )) as IApiResponse;
-  
+
+  return res;
+};
+
+export const getTowatchCategories = async (userId: number) => {
+  const res = (await $api.get("/towatch-category", {
+    params: {
+      user: userId,
+    },
+  })) as IApiResponse;
+
   return res;
 };

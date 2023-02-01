@@ -11,16 +11,7 @@ const Content = () => {
 
       <hr />
 
-      <div className="h-full pt-7">
-        <div className="flex items-center gap-x-3 mb-2">
-          <span className={`w-2 h-8`} />
-          <p className="text-2xl">Animes</p>
-        </div>
-
-        <div className="h-fit">
-          <ToWatchList />
-        </div>
-      </div>
+      <ToWatchList />
     </div>
   );
 };

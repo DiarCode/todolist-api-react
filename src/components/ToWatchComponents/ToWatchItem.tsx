@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import StarSolid from "../Icons/StarSolid";
-import toWatchModalActions from "../../store/slices/towatchSlice";
+import toWatchModalActions from "../../store/slices/towatchModalSlice";
 import { useAppDispatch } from "../../store/store";
 import { IToWatch } from "../../types/towatch/towatch.type";
 

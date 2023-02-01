@@ -1,5 +1,5 @@
 export interface IToWatchCategory {
   id: number;
-  name: string;
+  value: string;
   color: string;
 }

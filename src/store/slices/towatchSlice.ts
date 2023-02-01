@@ -1,40 +1,71 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import { IToWatchCategory } from "src/types/towatch/towatch_category.type";
 import { IToWatch } from "src/types/towatch/towatch.type";
 
-// Define a type for the slice state
-interface TowatchModalSliceModal {
-  isTowatchModalOpen: boolean;
-  towatchItem: IToWatch | null;
+interface TowatchSliceState {
+  category: IToWatchCategory | null;
+  initialTowatches: IToWatch[];
+  towatches: IToWatch[];
+  filter: string;
 }
 
-// Define the initial state using that type
-const initialState: TowatchModalSliceModal = {
-  isTowatchModalOpen: false,
-  towatchItem: null,
+export const FILTERS = {
+  ALL: "POPULAR",
+  NEW: "RECENT",
+  PRIMARY: "PUBLISHED",
 };
 
-export const towatchModalSlice = createSlice({
-  name: "createTaskModalSlice",
+const initialState: TowatchSliceState = {
+  category: null,
+  initialTowatches: [],
+  towatches: [],
+  filter: FILTERS.ALL,
+};
+
+export const towatchesSlice = createSlice({
+  name: "towatchesSlice",
   initialState,
   reducers: {
-    showTowatchModal: (
-      state,
-      action: PayloadAction<{ towatchItem: IToWatch }>
-    ) => {
-      state.isTowatchModalOpen = true;
-      state.towatchItem = action.payload.towatchItem;
+    addTowatch: (state, action: PayloadAction<{ towatch: IToWatch }>) => {
+      state.initialTowatches = [
+        ...state.initialTowatches,
+        action.payload.towatch,
+      ];
+      state.towatches = [...state.towatches, action.payload.towatch];
     },
-    closeTowatchModal: state => {
-      state.isTowatchModalOpen = false;
-      state.towatchItem = null;
+    selectCategory: (
+      state,
+      action: PayloadAction<{
+        towatches: IToWatch[];
+        category: IToWatchCategory;
+      }>
+    ) => {
+      state.category = action.payload.category;
+      state.towatches = action.payload.towatches;
+      state.initialTowatches = action.payload.towatches;
+      state.filter = FILTERS.ALL;
+    },
+    onFilterChange: (state, action: PayloadAction<{ filter: string }>) => {
+      const filterValue = action.payload.filter;
+      state.filter = filterValue;
+      const initialTowatches = [...state.initialTowatches];
     },
   },
 });
 
-export default towatchModalSlice.actions;
+export default towatchesSlice.actions;
 
-export const selectIsTowatchModalOpen = (state: RootState) =>
-  state.towatchModal;
+export const selectTowatchCategory = (state: RootState) =>
+  state.towatchesSlice.category;
 
-export const createTowatchModalReducer = towatchModalSlice.reducer;
+export const selectTowatches = (state: RootState) =>
+  state.towatchesSlice.towatches;
+
+export const selectInitialTowatches = (state: RootState) =>
+  state.towatchesSlice.initialTowatches;
+
+export const selectTowatchFilterState = (state: RootState) =>
+  state.towatchesSlice.filter;
+
+export const towatchesSliceReducer = towatchesSlice.reducer;

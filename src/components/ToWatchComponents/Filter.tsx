@@ -1,45 +1,33 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { selectFilterState } from "../../store/slices/todosTasksSlice";
 import todosActions from "../../store/slices/todosTasksSlice";
-import { ITodo } from "../../types/todos/todo.type";
+import { FILTERS, selectTowatchFilterState } from "../../store/slices/towatchSlice";
 
-interface TowatchFilterProps {
-  todos: ITodo[];
-}
-
-const filters = [
-  { value: "Popular" },
-  { value: "Finished" },
-  { value: "Episodes" },
-];
-
-const Filter = ({ todos }: TowatchFilterProps) => {
+const Filter = () => {
   const dispatch = useAppDispatch();
-  const currentFilter = useAppSelector(selectFilterState);
+  const currentFilter = useAppSelector(selectTowatchFilterState);
 
   const onFilterChange = (value: string) => {
     dispatch(
       todosActions.onFilterChange({
-        initialTodos: todos,
         filter: value,
       })
     );
   };
 
-  const renderedFilters = filters.map((filter, index) => {
+  const renderedFilters = Object.values(FILTERS).map((filter, index) => {
     let filterItemStyle = "text-gray-400 cursor-pointer";
-    if (filter.value.toUpperCase() === currentFilter) {
+    if (filter.toUpperCase() === currentFilter) {
       filterItemStyle =
         "text-gray-100 bg-[#406ffa] rounded-md px-3 py-[2px] cursor-pointer";
     }
     return (
       <p
         key={index}
-        onClick={() => onFilterChange(filter.value)}
+        onClick={() => onFilterChange(filter)}
         className={filterItemStyle}
       >
-        {filter.value}
+        {filter}
       </p>
     );
   });
