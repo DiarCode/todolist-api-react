@@ -1,6 +1,6 @@
 import React, { MouseEvent, useState } from "react";
 import { ITodoCategory } from "../../types/todos/category.type";
-import { useAppDispatch, useAppSelector } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux.hooks";
 import categoriesTaskslActions from "../../store/slices/todosTasksSlice";
 import RemoveSolid from "../Icons/RemoveSolid";
 import { getTodosByCategory } from "../../api/todos/todos";

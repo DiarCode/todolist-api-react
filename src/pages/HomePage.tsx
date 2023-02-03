@@ -3,7 +3,7 @@ import Layout from "../components/Layout/Layout";
 import Navbar from "../components/Navbar/Navbar";
 import { Link } from "react-router-dom";
 import { selectAuthUser } from "../store/slices/authSlice";
-import { useAppSelector } from "../store/store";
+import { useAppSelector } from "../hooks/redux.hooks";
 
 const CATS_IMAGES = [
   "https://play-lh.googleusercontent.com/XVHP0sBKrRJYZq_dB1RalwSmx5TcYYRRfYMFO18jgNAnxHAIA1osxM55XHYTb3LpkV8",

@@ -1,5 +1,5 @@
 import React from "react";
-import { useAppDispatch, useAppSelector } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux.hooks";
 import towatchesSliceActions from "../../store/slices/towatchSlice";
 import { getTowatchesByCategory } from "../../api/towatches/towatches";
 import { selectAuthUser } from "../../store/slices/authSlice";

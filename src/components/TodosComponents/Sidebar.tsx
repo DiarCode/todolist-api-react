@@ -1,7 +1,7 @@
 import React from "react";
 import CategoryItem from "./CategoryItem";
 import SidebarUserInfo from "../SidebarUserInfo/SidebarUserInfo";
-import { useAppDispatch, useAppSelector } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux.hooks";
 import createTaskModalActions from "../../store/slices/createTaskSlice";
 import { useQuery } from "react-query";
 import { getTodoCategories } from "../../api/categories/categories";

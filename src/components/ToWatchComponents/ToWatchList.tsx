@@ -1,5 +1,5 @@
 import React from "react";
-import { useAppDispatch, useAppSelector } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux.hooks";
 import Filter from "./Filter";
 import towatchesActions, {
   selectTowatchCategory,

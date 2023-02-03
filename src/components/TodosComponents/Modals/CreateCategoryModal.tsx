@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../store/store";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux.hooks";
 import createTaskModalActions, {
   selectIsCategoryOpen,
 } from "../../../store/slices/createTaskSlice";
-import { colorsData } from "../../../mock/colors";
+import { colorsData } from "../../../constants/colors";
 import { creaeteTodoCategory } from "../../../api/categories/categories";
 import { selectAuthUser } from "../../../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";

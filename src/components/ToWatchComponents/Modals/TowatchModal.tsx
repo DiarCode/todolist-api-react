@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../store/store";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux.hooks";
 import towatchModalActions, {
   selectIsTowatchModalOpen,
 } from "../../../store/slices/towatchModalSlice";

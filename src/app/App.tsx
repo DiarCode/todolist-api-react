@@ -1,27 +1,26 @@
 import React from "react";
-import HomePage from "./pages/HomePage";
-import TodosPage from "./pages/TodosPage";
-import LoginPage from "./pages/LoginPage";
+import HomePage from "../pages/HomePage";
+import TodosPage from "../pages/TodosPage";
+import LoginPage from "../pages/LoginPage";
 import { Route, Routes } from "react-router-dom";
-import SignUpPage from "./pages/SignUpPage";
-import { useAppDispatch } from "./store/store";
-import ToWatchPage from "./pages/ToWatchPage";
-import AuthProtectedRoutes from "./pages/ProtectedRoutes/AuthProtectedRoutes";
-
-import { getUserById } from "./api/user/user.api";
-import authSliceActions from "./store/slices/authSlice";
+import SignUpPage from "../pages/SignUpPage";
+import ToWatchPage from "../pages/ToWatchPage";
+import AuthProtectedRoutes from "../pages/ProtectedRoutes/AuthProtectedRoutes";
+import { getUserById } from "../api/user/user.api";
+import authSliceActions from "../store/slices/authSlice";
+import { useAppDispatch } from "../hooks/redux.hooks";
 
 const ToWatchModal = React.lazy(
-  () => import("./components/ToWatchComponents/Modals/TowatchModal")
+  () => import("../components/ToWatchComponents/Modals/TowatchModal")
 );
 const CreateTaskModal = React.lazy(
-  () => import("./components/TodosComponents/Modals/CreateTaskModal")
+  () => import("../components/TodosComponents/Modals/CreateTaskModal")
 );
 const CreateCategoryModal = React.lazy(
-  () => import("./components/TodosComponents/Modals/CreateCategoryModal")
+  () => import("../components/TodosComponents/Modals/CreateCategoryModal")
 );
 const CreateTowatchCategoryModal = React.lazy(
-  () => import("./components/ToWatchComponents/Modals/TowatchCategoryModal")
+  () => import("../components/ToWatchComponents/Modals/TowatchCategoryModal")
 );
 
 function App() {

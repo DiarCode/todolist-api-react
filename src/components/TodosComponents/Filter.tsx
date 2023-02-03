@@ -1,7 +1,8 @@
 import React from "react";
-import { useAppDispatch, useAppSelector } from "../../store/store";
-import { FILTERS, selectFilterState } from "../../store/slices/todosTasksSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux.hooks";
+import { selectFilterState } from "../../store/slices/todosTasksSlice";
 import todosActions from "../../store/slices/todosTasksSlice";
+import { TODOS_FILTERS } from "../../constants/filters";
 
 const Filter = () => {
   const dispatch = useAppDispatch();
@@ -15,7 +16,7 @@ const Filter = () => {
     );
   };
 
-  const renderedFilters = Object.values(FILTERS).map((filter, index) => {
+  const renderedFilters = Object.values(TODOS_FILTERS).map((filter, index) => {
     let filterItemStyle = "text-gray-400 cursor-pointer";
     if (filter.toUpperCase() === currentFilter) {
       filterItemStyle =

@@ -1,7 +1,7 @@
 import React from "react";
 import SidebarUserInfo from "../SidebarUserInfo/SidebarUserInfo";
 import CategoryItem from "./CategoryItem";
-import { useAppDispatch, useAppSelector } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux.hooks";
 import { useQuery } from "react-query";
 import { getTowatchCategories } from "../../api/categories/categories";
 import { selectAuthUser } from "../../store/slices/authSlice";

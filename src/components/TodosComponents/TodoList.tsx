@@ -1,6 +1,6 @@
 import React from "react";
 import TodoItem from "./TodoItem";
-import { useAppSelector } from "../../store/store";
+import { useAppSelector } from "../../hooks/redux.hooks";
 import {
   selectCategory,
   selectTodos,

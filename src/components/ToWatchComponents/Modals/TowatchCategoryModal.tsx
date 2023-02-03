@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../store/store";
-import { colorsData } from "../../../mock/colors";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux.hooks";
+import { colorsData } from "../../../constants/colors";
 import { selectAuthUser } from "../../../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import towatchModalSliceActions, {

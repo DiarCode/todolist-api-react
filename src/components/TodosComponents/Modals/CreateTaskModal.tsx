@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../store/store";
+import * as reduxHooks from "../../../hooks/redux.hooks";
 import createTaskModalActions, {
   selectIsTodosOpen,
 } from "../../../store/slices/createTaskSlice";
@@ -11,7 +11,7 @@ import { CreateTodoDto } from "../../../types/todos/todo.type";
 import { useNavigate } from "react-router-dom";
 
 const CreateTaskModal = () => {
-  const user = useAppSelector(selectAuthUser);
+  const user = reduxHooks.useAppSelector(selectAuthUser);
   const { data: categories } = useQuery(
     "todo-category",
     () => getTodoCategories(user.id),
@@ -20,8 +20,8 @@ const CreateTaskModal = () => {
     }
   );
 
-  const dispatch = useAppDispatch();
-  const isOpen = useAppSelector(selectIsTodosOpen);
+  const dispatch = reduxHooks.useAppDispatch();
+  const isOpen = reduxHooks.useAppSelector(selectIsTodosOpen);
   const navigate = useNavigate();
   const [error, setError] = useState("");
 

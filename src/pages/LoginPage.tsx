@@ -3,7 +3,7 @@ import Layout from "../components/Layout/Layout";
 import { Link, useNavigate } from "react-router-dom";
 import { ILogin, IUser } from "../types/auth/user.type";
 import { login } from "../api/auth/auth.api";
-import { useAppDispatch, useAppSelector } from "../store/store";
+import { useAppDispatch, useAppSelector } from "../hooks/redux.hooks";
 import authSliceActions, { selectAuthUser } from "../store/slices/authSlice";
 
 const LoginPage = () => {

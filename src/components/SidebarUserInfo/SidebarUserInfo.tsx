@@ -1,6 +1,6 @@
 import React from "react";
 import UserIcon from "../Icons/UserIcon";
-import { useAppSelector } from "../../store/store";
+import { useAppSelector } from "../../hooks/redux.hooks";
 import { selectAuthUser } from "../../store/slices/authSlice";
 
 const SidebarUserInfo = () => {

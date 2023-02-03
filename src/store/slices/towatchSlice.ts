@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { IToWatchCategory } from "src/types/towatch/towatch_category.type";
 import { IToWatch } from "src/types/towatch/towatch.type";
+import { TOWATCHES_FILTERS } from "src/constants/filters";
 
 interface TowatchSliceState {
   category: IToWatchCategory | null;
@@ -10,17 +11,11 @@ interface TowatchSliceState {
   filter: string;
 }
 
-export const FILTERS = {
-  ALL: "ALL",
-  POPULAR: "POPULAR",
-  NEW: "NEW",
-};
-
 const initialState: TowatchSliceState = {
   category: null,
   initialTowatches: [],
   towatches: [],
-  filter: FILTERS.ALL,
+  filter: TOWATCHES_FILTERS.ALL,
 };
 
 export const towatchesSlice = createSlice({
@@ -44,18 +39,18 @@ export const towatchesSlice = createSlice({
       state.category = action.payload.category;
       state.towatches = action.payload.towatches;
       state.initialTowatches = action.payload.towatches;
-      state.filter = FILTERS.ALL;
+      state.filter = TOWATCHES_FILTERS.ALL;
     },
     onFilterChange: (state, action: PayloadAction<{ filter: string }>) => {
       const filterValue = action.payload.filter;
       state.filter = filterValue;
       const initialTowatches = [...state.initialTowatches];
 
-      if (filterValue === FILTERS.ALL) {
+      if (filterValue === TOWATCHES_FILTERS.ALL) {
         state.towatches = initialTowatches;
         return;
       }
-      if (filterValue === FILTERS.NEW) {
+      if (filterValue === TOWATCHES_FILTERS.NEW) {
         state.towatches = initialTowatches.sort((a, b) => {
           var dateA = new Date(a.start_date).getTime();
           var dateB = new Date(b.start_date).getTime();
@@ -63,7 +58,7 @@ export const towatchesSlice = createSlice({
         });
         return;
       }
-      if (filterValue === FILTERS.POPULAR) {
+      if (filterValue === TOWATCHES_FILTERS.POPULAR) {
         state.towatches = initialTowatches.sort((a, b) => {
           return a.rating > b.rating ? 1 : -1;
         });

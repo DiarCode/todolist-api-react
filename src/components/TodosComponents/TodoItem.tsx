@@ -1,5 +1,5 @@
 import React from "react";
-import { formatDate } from "../../shared/dateFormatter";
+import { formatDate } from "../../utils/dateFormatter";
 import { completeTodo } from "../../api/todos/todos";
 import { useNavigate } from "react-router-dom";
 

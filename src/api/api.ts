@@ -8,12 +8,13 @@ export const $api = axios.create({
   headers: { Accept: "application/json" },
 });
 
-// $api.interceptors.request.use(config => {
-//   config.headers["Authorization"] = `Bearer ${localStorage.getItem(
-//     "access_token"
-//   )}`;
-//   return config;
-// });
+$api.interceptors.request.use(config => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 $api.interceptors.response.use(res => {
   return res.data;

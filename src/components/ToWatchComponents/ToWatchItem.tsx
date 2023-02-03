@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import StarSolid from "../Icons/StarSolid";
 import toWatchModalActions from "../../store/slices/towatchModalSlice";
-import { useAppDispatch } from "../../store/store";
+import { useAppDispatch } from "../../hooks/redux.hooks";
 import { IToWatch } from "../../types/towatch/towatch.type";
-import { formatDate } from "../../shared/dateFormatter";
+import { formatDate } from "../../utils/dateFormatter";
 
 interface ToWatchItemProps {
   data: IToWatch;
