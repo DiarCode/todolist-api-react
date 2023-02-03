@@ -17,7 +17,9 @@ $api.interceptors.request.use(config => {
 });
 
 $api.interceptors.response.use(res => {
-  return res.data;
+  if (res) {
+    return res.data;
+  }
 });
 
 export const queryClient = new QueryClient();

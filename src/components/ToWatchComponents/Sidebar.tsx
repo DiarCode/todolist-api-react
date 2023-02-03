@@ -31,7 +31,6 @@ const Sidebar = () => {
       return;
     }
 
-    console.log(res);
     dispatch(
       towatchesSliceActions.selectCategory({
         category: { value: "Animes", color: "blue" },

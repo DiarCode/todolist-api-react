@@ -30,6 +30,11 @@ function App() {
     (async function initUser() {
       const user_id = JSON.parse(localStorage.getItem("user_id") || "");
       const token = JSON.parse(localStorage.getItem("token") || "");
+
+      if (user_id == null || token == null) {
+        return;
+      }
+
       const res = await getUserById(user_id);
       if (res.code === 200) {
         dispatch(authSliceActions.setAuth({ user: res.data, token }));

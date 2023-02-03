@@ -24,10 +24,7 @@ const CategoryItem = ({ data }: CategoryItemProps) => {
     : "opacity-0 w-[22px] -mb-[2px]";
 
   const onCategoryClick = async () => {
-    console.log(data.id, user.id);
     const res = await getTodosByCategory(data.id, user.id);
-
-    console.log(res);
 
     if (res.code !== 200) {
       return;
