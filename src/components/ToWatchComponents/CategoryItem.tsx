@@ -32,9 +32,9 @@ const CategoryItem = ({ data }: CategoryItemProps) => {
   return (
     <div
       onClick={onCategoryClick}
-      className="hover:bg-[#ebeef9] flex items-center justify-between cursor-pointer p-2 rounded-lg"
+      className="w-full hover:bg-[#ebeef9] flex items-center justify-between cursor-pointer p-2 rounded-lg"
     >
-      <div className="flex items-center gap-x-2">
+      <div className="w-full flex items-center gap-x-2">
         <span className="w-2 h-6" style={{ backgroundColor: data.color }} />
         <p>{data.value}</p>
       </div>

@@ -55,11 +55,11 @@ const Sidebar = () => {
         <div className="flex flex-col gap-y-5 mb-4">
           <p className="font-bold text-center">Towatches</p>
           <div className="max-h-[15rem] flex flex-col justify-start overflow-y-auto">
-            <div className="hover:bg-[#ebeef9] flex items-center justify-between cursor-pointer p-2 rounded-lg">
-              <div
-                className="flex items-center gap-x-2"
-                onClick={onTowatchesClick}
-              >
+            <div
+              onClick={onTowatchesClick}
+              className="w-full hover:bg-[#ebeef9] flex items-center justify-between cursor-pointer p-2 rounded-lg"
+            >
+              <div className="flex items-center gap-x-2">
                 <p>Animes</p>
               </div>
             </div>

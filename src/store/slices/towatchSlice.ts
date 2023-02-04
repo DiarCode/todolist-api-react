@@ -60,7 +60,7 @@ export const towatchesSlice = createSlice({
       }
       if (filterValue === TOWATCHES_FILTERS.POPULAR) {
         state.towatches = initialTowatches.sort((a, b) => {
-          return a.rating > b.rating ? 1 : -1;
+          return a.rating < b.rating ? 1 : -1;
         });
         return;
       }

@@ -16,27 +16,29 @@ interface ToWatchItemProps {
 
 const ToWatchItem = ({ data }: ToWatchItemProps) => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector(selectAuthUser)
+  const user = useAppSelector(selectAuthUser);
   const category = useAppSelector(selectTowatchCategory);
   const [isHovered, setIsHovered] = useState(false);
-  const navigate = useNavigate()
-  const isInCategory = category.value !== "Animes"
+  const navigate = useNavigate();
+  const isInCategory = category.value !== "Animes";
 
   const onItemClick = () => {
-    dispatch(toWatchModalActions.showTowatchModal({ towatchItem: data }));
+    if (!isInCategory) {
+      dispatch(toWatchModalActions.showTowatchModal({ towatchItem: data }));
+    }
   };
 
   const onRemoveClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation()
-//TODO: FIX THIS SHIT, DIAR!!!!!!!!!!!!!!!!
+    e.stopPropagation();
+
     const dto = {
       user_id: user.id,
       towatch_id: data.id,
       towatch_category_id: category.id,
-    }
+    };
 
-    await removeTowatchFromCategory(dto)
-    navigate(0)
+    await removeTowatchFromCategory(dto);
+    navigate(0);
   };
 
   const hoveredDetailsContent = isHovered && (
@@ -47,10 +49,10 @@ const ToWatchItem = ({ data }: ToWatchItemProps) => {
       <div className="rounded-xl flex flex-col justify-between h-full">
         {isInCategory && (
           <div className="flex justify-end">
-          <button onClick={e => onRemoveClick(e)}>
-            <RemoveSolid fill={"#FFFFFF"} className="w-7"/>
-          </button>
-        </div>
+            <button onClick={e => onRemoveClick(e)}>
+              <RemoveSolid fill={"#FFFFFF"} className="w-7" />
+            </button>
+          </div>
         )}
         <div className="mt-auto flex flex-col">
           <div className="flex items-center gap-1">
