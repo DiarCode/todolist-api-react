@@ -4,8 +4,9 @@ import towatchModalActions, {
   selectIsTowatchModalOpen,
 } from "../../../store/slices/towatchModalSlice";
 import { useQuery } from "react-query";
-import { getTowatchCategories } from "../../../api/categories/categories";
+import { addTowatchToCategory, getTowatchCategories } from "../../../api/categories/categories";
 import { selectAuthUser } from "../../../store/slices/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const ToWatchModal = () => {
   const user = useAppSelector(selectAuthUser);
@@ -18,11 +19,13 @@ const ToWatchModal = () => {
       enabled: user !== null,
     }
   );
+  
+  const navigate = useNavigate()
 
+  const [error, setError] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
   );
-
   const componentStyle = isOpen ? "flex" : "hidden";
 
   const onCloseClick = () => {
@@ -37,20 +40,29 @@ const ToWatchModal = () => {
     setSelectedCategoryId(null);
   };
 
-  const onFormSubmit = () => {
+  const onFormSubmit = async () => {
     const checkValues = [selectedCategoryId];
 
     if (!checkValues.every(value => value != null)) {
       return;
     }
 
-    const obj = {
-      towatch: data,
-      category_id: selectedCategoryId,
+    const dto = {
+      towatch_id: data.id,
+      towatch_category_id: selectedCategoryId!,
+      user_id: user.id,
     };
+  
+    const res = await addTowatchToCategory(dto)
+
+    if (res.code !== 200){
+      setError(res.message)
+      return
+    } 
 
     dispatch(towatchModalActions.closeTowatchModal());
     onResetAllParameters();
+    navigate(0);
   };
 
   const renderedCategories = categories?.data.map(category => {
@@ -70,7 +82,7 @@ const ToWatchModal = () => {
           style={{ backgroundColor: category.color }}
           className={`w-2 h-6`}
         />
-        <p>{category.name}</p>
+        <p className="text-black">{category.value}</p>
       </div>
     );
   });
@@ -97,6 +109,10 @@ const ToWatchModal = () => {
           <div className="flex items-center gap-x-3 overflow-x-auto py-4">
             {renderedCategories}
           </div>
+        </div>
+
+        <div className="mb-14">
+          <p className="text-red-400">{error}</p>
         </div>
 
         <div className="flex items-center justify-center">

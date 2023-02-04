@@ -46,3 +46,22 @@ export const creaeteTowatchCategory = async (dto: {
   const res = (await $api.post("/towatch-category", dto)) as IApiResponse;
   return res;
 };
+
+export const addTowatchToCategory = async (dto: {
+  user_id: number;
+  towatch_category_id: number;
+  towatch_id: number;
+}) => {
+  const res = (await $api.post("/towatch-category/towatch/add", dto)) as IApiResponse;
+  return res;
+};
+
+export const removeTowatchFromCategory = async (dto: {
+  user_id: number;
+  towatch_category_id: number;
+  towatch_id: number;
+}) => {
+  const res = (await $api.post("/towatch-category/towatch/remove", dto)) as IApiResponse;
+  return res;
+};
+
