@@ -2,31 +2,29 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { ITodoCategory } from "src/types/todos/category.type";
 import { ITodo } from "src/types/todos/todo.type";
+import { TODOS_FILTERS } from "src/constants/filters";
 
-// Define a type for the slice state
 interface CategoriesTasksState {
   category: ITodoCategory | null;
+  initialTodos: ITodo[];
   todos: ITodo[];
   filter: string;
 }
 
-const defaulFilter = "ALL";
-
-// Define the initial state using that type
 const initialState: CategoriesTasksState = {
   category: null,
+  initialTodos: [],
   todos: [],
-  filter: "ALL",
+  filter: TODOS_FILTERS.ALL,
 };
 
 export const categoriesTasksSlice = createSlice({
   name: "categoriesTasksSlice",
   initialState,
   reducers: {
-    initTodos: (state, action: PayloadAction<{ todos: ITodo[] }>) => {
-      state.category = null;
-      state.todos = action.payload.todos;
-      state.filter = defaulFilter;
+    addTodo: (state, action: PayloadAction<{ todo: ITodo }>) => {
+      state.initialTodos = [...state.initialTodos, action.payload.todo];
+      state.todos = [...state.todos, action.payload.todo];
     },
     selectCategory: (
       state,
@@ -34,24 +32,34 @@ export const categoriesTasksSlice = createSlice({
     ) => {
       state.category = action.payload.category;
       state.todos = action.payload.todos;
-      state.filter = defaulFilter;
+      state.initialTodos = action.payload.todos;
+      state.filter = TODOS_FILTERS.ALL;
     },
-    onFilterChange: (
-      state,
-      action: PayloadAction<{ initialTodos: ITodo[]; filter: string }>
-    ) => {
-      const filterValue = action.payload.filter.toUpperCase();
-      const initialTodos = action.payload.initialTodos;
+    onFilterChange: (state, action: PayloadAction<{ filter: string }>) => {
+      const filterValue = action.payload.filter;
+      state.filter = filterValue;
+      const initialTodos = [...state.initialTodos];
 
-      if (filterValue === "ACTIVE") {
-        state.todos = initialTodos.filter(todo => todo.completed === false);
-      } else if (filterValue === "PRIMARY") {
-        state.todos = initialTodos.filter(todo => todo.is_prior === true);
-      } else if (filterValue === "ALL") {
-        state.todos = initialTodos;
+      if (filterValue === TODOS_FILTERS.NEW) {
+        state.todos = initialTodos.sort((a, b) => {
+          var dateA = new Date(a.created_at).getTime();
+          var dateB = new Date(b.created_at).getTime();
+          return dateA < dateB ? 1 : -1;
+        });
+
+        return;
       }
 
-      state.filter = filterValue;
+      if (filterValue === TODOS_FILTERS.PRIMARY) {
+        state.todos = initialTodos.filter(todo => todo.priority === true);
+
+        return;
+      }
+
+      if (filterValue === TODOS_FILTERS.ALL) {
+        state.todos = state.initialTodos;
+        return;
+      }
     },
   },
 });
@@ -63,6 +71,9 @@ export const selectCategory = (state: RootState) =>
   state.categoryTasksSlice.category;
 
 export const selectTodos = (state: RootState) => state.categoryTasksSlice.todos;
+
+export const selectInitialTodos = (state: RootState) =>
+  state.categoryTasksSlice.initialTodos;
 
 export const selectFilterState = (state: RootState) =>
   state.categoryTasksSlice.filter;

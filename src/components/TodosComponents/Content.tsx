@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "../Navbar/Navbar";
-import { useAppDispatch } from "../../store/store";
+import { useAppDispatch } from "../../hooks/redux.hooks";
 import createTaskModalActions from "../../store/slices/createTaskSlice";
 
 import TodoList from "./TodoList";

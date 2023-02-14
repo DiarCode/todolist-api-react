@@ -1,5 +1,8 @@
+import {IToWatch} from "./towatch.type"
+
 export interface IToWatchCategory {
   id: number;
-  name: string;
+  value: string;
   color: string;
+  towatches: IToWatch[]
 }

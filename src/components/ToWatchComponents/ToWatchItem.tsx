@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import StarSolid from "../Icons/StarSolid";
-import toWatchModalActions from "../../store/slices/towatchSlice";
-import { useAppDispatch } from "../../store/store";
+import toWatchModalActions from "../../store/slices/towatchModalSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux.hooks";
 import { IToWatch } from "../../types/towatch/towatch.type";
+import { formatDate } from "../../utils/dateFormatter";
+import RemoveSolid from "../Icons/RemoveSolid";
+import { selectTowatchCategory } from "../../store/slices/towatchSlice";
+import { removeTowatchFromCategory } from "../../api/categories/categories";
+import { selectAuthUser } from "../../store/slices/authSlice";
+import { useNavigate } from "react-router-dom";
 
 interface ToWatchItemProps {
   data: IToWatch;
@@ -10,11 +16,29 @@ interface ToWatchItemProps {
 
 const ToWatchItem = ({ data }: ToWatchItemProps) => {
   const dispatch = useAppDispatch();
-
+  const user = useAppSelector(selectAuthUser);
+  const category = useAppSelector(selectTowatchCategory);
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
+  const isInCategory = category.value !== "Animes";
 
   const onItemClick = () => {
-    dispatch(toWatchModalActions.showTowatchModal({ towatchItem: data }));
+    if (!isInCategory) {
+      dispatch(toWatchModalActions.showTowatchModal({ towatchItem: data }));
+    }
+  };
+
+  const onRemoveClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+
+    const dto = {
+      user_id: user.id,
+      towatch_id: data.id,
+      towatch_category_id: category.id,
+    };
+
+    await removeTowatchFromCategory(dto);
+    navigate(0);
   };
 
   const hoveredDetailsContent = isHovered && (
@@ -23,13 +47,23 @@ const ToWatchItem = ({ data }: ToWatchItemProps) => {
       onClick={e => e.preventDefault()}
     >
       <div className="rounded-xl flex flex-col justify-between h-full">
+        {isInCategory && (
+          <div className="flex justify-end">
+            <button onClick={e => onRemoveClick(e)}>
+              <RemoveSolid fill={"#FFFFFF"} className="w-7" />
+            </button>
+          </div>
+        )}
         <div className="mt-auto flex flex-col">
           <div className="flex items-center gap-1">
-            <p className="text-white text-lg sm:text-2xl font-bold">9.1</p>
+            <p className="text-white text-lg sm:text-2xl font-bold">
+              {data.rating}
+            </p>
             <StarSolid fill={"#406ffa"} className="w-6 h-6" />
           </div>
           <p className="text-white text-xs sm:text-sm font-normal truncate text-ellipsis overflow-x-hidden">
-            Oct 2022 - Dec 2022
+            {formatDate(data.start_date, "MMM YYYY")} -
+            {formatDate(data.start_date, "MMM YYYY")}
           </p>
           <p className="text-white text-xs sm:text-sm font-normal truncate text-ellipsis overflow-x-hidden">
             13 episodes
@@ -51,9 +85,10 @@ const ToWatchItem = ({ data }: ToWatchItemProps) => {
           {hoveredDetailsContent}
           <picture>
             <img
-              src="https://cdn.myanimelist.net/images/anime/1764/126627.jpg"
+              loading="lazy"
+              src={data.image}
               className="rounded-xl duration-200 bg-gray-500 object-cover h-full w-[120px] sm:w-[177px]"
-              alt=""
+              alt={data.title}
             />
           </picture>
         </div>
@@ -64,10 +99,10 @@ const ToWatchItem = ({ data }: ToWatchItemProps) => {
             onMouseLeave={() => setIsHovered(false)}
             className="cursor-pointer truncate text-ellipsis overflow-x-hidden text-sm sm:text-base text-black font-medium"
           >
-            Bleach: Sennen Kessen-hen
+            {data.title}
           </p>
           <p className="truncate text-ellipsis overflow-x-hidden text-xs sm:text-sm  text-[#406ffa]">
-            TV Tokyo
+            {data.studio}
           </p>
         </div>
       </div>

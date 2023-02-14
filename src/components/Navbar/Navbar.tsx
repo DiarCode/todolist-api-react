@@ -1,7 +1,7 @@
 import React from "react";
-import { navbarLinks } from "../../shared/links";
+import { navbarLinks } from "../../constants/links";
 import { Link, useLocation } from "react-router-dom";
-import { useAppDispatch } from "../../store/store";
+import { useAppDispatch } from "../../hooks/redux.hooks";
 import authActions from "../../store/slices/authSlice";
 
 const Navbar = () => {
@@ -10,6 +10,7 @@ const Navbar = () => {
 
   const onLogoutClick = () => {
     dispatch(authActions.removeAuth());
+    localStorage.clear();
   };
 
   const renderedNavbarLinks = navbarLinks.map((link, index) => {

@@ -1,15 +1,24 @@
 import React from "react";
-import { categoriesData } from "../../mock/categories";
 import CategoryItem from "./CategoryItem";
 import SidebarUserInfo from "../SidebarUserInfo/SidebarUserInfo";
-import { useAppDispatch } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux.hooks";
 import createTaskModalActions from "../../store/slices/createTaskSlice";
+import { useQuery } from "react-query";
+import { getTodoCategories } from "../../api/categories/categories";
+import { selectAuthUser } from "../../store/slices/authSlice";
 
 const Sidebar = () => {
+  const user = useAppSelector(selectAuthUser);
+  const { data: categories } = useQuery(
+    "todo-category",
+    () => getTodoCategories(user.id),
+    {
+      enabled: user !== null,
+    }
+  );
   const dispatch = useAppDispatch();
 
-  // TODO: Query all categories
-  const renderedCategories = categoriesData.map(category => (
+  const renderedCategories = categories?.data.map(category => (
     <CategoryItem key={category.id} data={category} />
   ));
 
@@ -28,7 +37,7 @@ const Sidebar = () => {
 
         <div className="flex flex-col gap-y-5">
           <p className="font-bold text-center">Categories</p>
-          <div className="max-h-[15rem] flex flex-col justify-start gap-y-2 overflow-y-auto">
+          <div className="max-h-[15rem] flex flex-col justify-start overflow-y-auto">
             {renderedCategories}
           </div>
         </div>

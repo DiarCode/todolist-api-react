@@ -1,20 +1,31 @@
 import React, { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../store/store";
+import { useAppDispatch, useAppSelector } from "../../../hooks/redux.hooks";
 import towatchModalActions, {
   selectIsTowatchModalOpen,
-} from "../../../store/slices/towatchSlice";
-import { categoriesData } from "../../../mock/categories";
+} from "../../../store/slices/towatchModalSlice";
+import { useQuery } from "react-query";
+import { addTowatchToCategory, getTowatchCategories } from "../../../api/categories/categories";
+import { selectAuthUser } from "../../../store/slices/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const ToWatchModal = () => {
+  const user = useAppSelector(selectAuthUser);
   const dispatch = useAppDispatch();
-  const { isTowatchModalOpen: isOpen, towatchItem: data } = useAppSelector(
-    selectIsTowatchModalOpen
+  const { isOpen, data } = useAppSelector(selectIsTowatchModalOpen);
+  const { data: categories } = useQuery(
+    "towatch-category",
+    () => getTowatchCategories(user.id),
+    {
+      enabled: user !== null,
+    }
   );
+  
+  const navigate = useNavigate()
 
+  const [error, setError] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
   );
-
   const componentStyle = isOpen ? "flex" : "hidden";
 
   const onCloseClick = () => {
@@ -29,25 +40,32 @@ const ToWatchModal = () => {
     setSelectedCategoryId(null);
   };
 
-  const onFormSubmit = () => {
+  const onFormSubmit = async () => {
     const checkValues = [selectedCategoryId];
 
     if (!checkValues.every(value => value != null)) {
-      console.log("error");
       return;
     }
 
-    const obj = {
-      towatch: data,
-      category_id: selectedCategoryId,
+    const dto = {
+      towatch_id: data.id,
+      towatch_category_id: selectedCategoryId!,
+      user_id: user.id,
     };
+  
+    const res = await addTowatchToCategory(dto)
 
-    console.log(obj);
+    if (res.code !== 200){
+      setError(res.message)
+      return
+    } 
+
     dispatch(towatchModalActions.closeTowatchModal());
     onResetAllParameters();
+    navigate(0);
   };
 
-  const renderedCategories = categoriesData.map((category, index) => {
+  const renderedCategories = categories?.data.map(category => {
     const isCategorySelected = selectedCategoryId === category.id;
 
     let componentStyle = "flex items-center gap-x-2 cursor-pointer";
@@ -60,8 +78,11 @@ const ToWatchModal = () => {
         onClick={() => onSelectCategory(category.id)}
         className={componentStyle}
       >
-        <span className={`w-2 h-6 bg-[${category.color}]`} />
-        <p>{category.name}</p>
+        <span
+          style={{ backgroundColor: category.color }}
+          className={`w-2 h-6`}
+        />
+        <p className="text-black">{category.value}</p>
       </div>
     );
   });
@@ -79,7 +100,7 @@ const ToWatchModal = () => {
         className="w-2/4 bg-white rounded-xl p-9"
       >
         <div className="mb-7">
-          <p className="text-4xl">{data?.title}</p>
+          <p className="text-4xl mb-5">{data?.title}</p>
           <hr />
         </div>
 
@@ -88,6 +109,10 @@ const ToWatchModal = () => {
           <div className="flex items-center gap-x-3 overflow-x-auto py-4">
             {renderedCategories}
           </div>
+        </div>
+
+        <div className="mb-14">
+          <p className="text-red-400">{error}</p>
         </div>
 
         <div className="flex items-center justify-center">

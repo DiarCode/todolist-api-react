@@ -1,13 +1,16 @@
 import React from "react";
 import UserIcon from "../Icons/UserIcon";
+import { useAppSelector } from "../../hooks/redux.hooks";
+import { selectAuthUser } from "../../store/slices/authSlice";
 
 const SidebarUserInfo = () => {
+  const user = useAppSelector(selectAuthUser);
   return (
     <div className="flex items-center flex-col gap-y-4">
       <UserIcon />
       <div className="flex items-center flex-col gap-y-1">
-        <p>Diar Begisbayev</p>
-        <p className="text-gray-400">diar@gmail.com</p>
+        <p>{user?.name}</p>
+        <p className="text-gray-400">{user?.email}</p>
       </div>
     </div>
   );
