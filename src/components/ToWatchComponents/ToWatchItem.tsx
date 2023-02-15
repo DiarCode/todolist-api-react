@@ -22,6 +22,11 @@ const ToWatchItem = ({ data }: ToWatchItemProps) => {
   const navigate = useNavigate();
   const isInCategory = category.value !== "Animes";
 
+  const formattedDate = [
+    formatDate(data.start_date, "MMM YYYY"),
+    formatDate(data.finish_date, "MMM YYYY"),
+  ].join(" - ");
+
   const onItemClick = () => {
     if (!isInCategory) {
       dispatch(toWatchModalActions.showTowatchModal({ towatchItem: data }));
@@ -62,11 +67,10 @@ const ToWatchItem = ({ data }: ToWatchItemProps) => {
             <StarSolid fill={"#406ffa"} className="w-6 h-6" />
           </div>
           <p className="text-white text-xs sm:text-sm font-normal truncate text-ellipsis overflow-x-hidden">
-            {formatDate(data.start_date, "MMM YYYY")} -
-            {formatDate(data.start_date, "MMM YYYY")}
+            {formattedDate}
           </p>
           <p className="text-white text-xs sm:text-sm font-normal truncate text-ellipsis overflow-x-hidden">
-            13 episodes
+            {data.episodes} episodes
           </p>
         </div>
       </div>
