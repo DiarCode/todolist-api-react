@@ -9,7 +9,6 @@ const AuthProtectedRoutes = () => {
   const token = useAppSelector(selectAuthToken);
 
   const isAuth = user !== null && token !== null;
-  // const isAuth = true;
 
   return isAuth ? <Outlet /> : <Navigate to="/login" />;
 };
