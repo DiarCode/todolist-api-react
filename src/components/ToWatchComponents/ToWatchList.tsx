@@ -45,7 +45,7 @@ const TowatchList = () => {
       </div>
 
       <div className="relative">
-        <div className="w-full sm:max-h-[300px] lg:max-h-[570px] flex flex-wrap gap-x-5 gap-y-3 overflow-y-auto">
+        <div className="w-full sm:max-h-[340px] lg:max-h-[390px] flex flex-wrap gap-x-5 gap-y-3 overflow-y-auto">
           {renderedItems}
         </div>
       </div>
