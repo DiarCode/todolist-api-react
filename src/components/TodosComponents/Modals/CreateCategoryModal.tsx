@@ -4,15 +4,17 @@ import createTaskModalActions, {
   selectIsCategoryOpen,
 } from "../../../store/slices/createTaskSlice";
 import { colorsData } from "../../../constants/colors";
-import { creaeteTodoCategory } from "../../../api/categories/categories";
+import {
+  creaeteTodoCategory,
+  getTodoCategories,
+} from "../../../api/categories/categories";
 import { selectAuthUser } from "../../../store/slices/authSlice";
-import { useNavigate } from "react-router-dom";
+import todosSliceActions from "../../../store/slices/todosTasksSlice";
 
 const CreateCategoryModal = () => {
   const user = useAppSelector(selectAuthUser);
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector(selectIsCategoryOpen);
-  const navigate = useNavigate();
 
   const [selectedColorId, setSelectedColorId] = useState<number | null>(null);
   const [categoryTitle, setCategoryTitle] = useState<string>("");
@@ -58,9 +60,15 @@ const CreateCategoryModal = () => {
       return;
     }
 
+    const categoriesRes = await getTodoCategories(user.id);
+    if (categoriesRes.code !== 200) {
+      setError(categoriesRes.message);
+      return;
+    }
+
+    dispatch(todosSliceActions.fillInitialCategories(categoriesRes.data));
     dispatch(createTaskModalActions.closeCategoryModal());
     onResetAllParameters();
-    navigate(0);
   };
 
   const renderedColors = colorsData.map(color => {
