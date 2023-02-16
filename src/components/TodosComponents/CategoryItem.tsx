@@ -7,6 +7,7 @@ import { getTodosByCategory } from "../../api/todos/todos";
 import { selectAuthUser } from "../../store/slices/authSlice";
 import { deleteTodoCategory } from "../../api/categories/categories";
 import { useNavigate } from "react-router-dom";
+import todosTasksSlice from "../../store/slices/todosTasksSlice";
 
 interface CategoryItemProps {
   data: ITodoCategory;
@@ -49,7 +50,7 @@ const CategoryItem = ({ data }: CategoryItemProps) => {
       return;
     }
 
-    navigate(0);
+    dispatch(todosTasksSlice.removeFromInitialCategories({ category: data }));
   };
 
   return (

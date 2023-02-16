@@ -28,6 +28,14 @@ export const deleteTodoCategory = async (categoryId: number) => {
   return res;
 };
 
+export const deleteTowatchCategory = async (categoryId: number) => {
+  const res = (await $api.delete(
+    `/towatch-category/${categoryId}`
+  )) as IApiResponse;
+
+  return res;
+};
+
 export const getTowatchCategories = async (userId: number) => {
   const res = (await $api.get("/towatch-category", {
     params: {
@@ -52,7 +60,10 @@ export const addTowatchToCategory = async (dto: {
   towatch_category_id: number;
   towatch_id: number;
 }) => {
-  const res = (await $api.post("/towatch-category/towatch/add", dto)) as IApiResponse;
+  const res = (await $api.post(
+    "/towatch-category/towatch/add",
+    dto
+  )) as IApiResponse;
   return res;
 };
 
@@ -61,7 +72,9 @@ export const removeTowatchFromCategory = async (dto: {
   towatch_category_id: number;
   towatch_id: number;
 }) => {
-  const res = (await $api.post("/towatch-category/towatch/remove", dto)) as IApiResponse;
+  const res = (await $api.post(
+    "/towatch-category/towatch/remove",
+    dto
+  )) as IApiResponse;
   return res;
 };
-

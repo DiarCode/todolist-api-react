@@ -6,6 +6,7 @@ import { TOWATCHES_FILTERS } from "src/constants/filters";
 
 interface TowatchSliceState {
   category: IToWatchCategory | null;
+  initialCategories: IToWatchCategory[];
   initialTowatches: IToWatch[];
   towatches: IToWatch[];
   filter: string;
@@ -13,6 +14,7 @@ interface TowatchSliceState {
 
 const initialState: TowatchSliceState = {
   category: null,
+  initialCategories: [],
   initialTowatches: [],
   towatches: [],
   filter: TOWATCHES_FILTERS.ALL,
@@ -22,12 +24,46 @@ export const towatchesSlice = createSlice({
   name: "towatchesSlice",
   initialState,
   reducers: {
-    addTowatch: (state, action: PayloadAction<{ towatch: IToWatch }>) => {
-      state.initialTowatches = [
-        ...state.initialTowatches,
-        action.payload.towatch,
-      ];
-      state.towatches = [...state.towatches, action.payload.towatch];
+    fillInitialCategories: (
+      state,
+      action: PayloadAction<{ categories: IToWatchCategory[] }>
+    ) => {
+      state.initialCategories = [...action.payload.categories];
+    },
+    removeFromInitialCategories: (
+      state,
+      action: PayloadAction<{ category: IToWatchCategory }>
+    ) => {
+      const category = action.payload.category;
+      state.initialCategories = state.initialCategories.filter(
+        c => c.id !== category.id
+      );
+    },
+    addTowatch: (
+      state,
+      action: PayloadAction<{ towatch: IToWatch; category: IToWatchCategory }>
+    ) => {
+      const towatch = action.payload.towatch;
+      const category = action.payload.category;
+
+      if (state.category?.id === category.id) {
+        if (state.category.towatches === undefined) {
+          state.category.towatches = [towatch];
+        } else {
+          state.category.towatches = [...state.category.towatches, towatch];
+        }
+      }
+    },
+    removeTowatch: (
+      state,
+      action: PayloadAction<{ towatch: IToWatch; category: IToWatchCategory }>
+    ) => {
+      const towatch = action.payload.towatch;
+      const category = action.payload.category;
+
+      if (state.category?.id === category.id) {
+        state.towatches = state.towatches.filter(t => t.id !== towatch.id);
+      }
     },
     selectCategory: (
       state,
@@ -78,6 +114,9 @@ export const selectTowatches = (state: RootState) =>
 
 export const selectInitialTowatches = (state: RootState) =>
   state.towatchesSlice.initialTowatches;
+
+export const selectInitialTowatchCategories = (state: RootState) =>
+  state.towatchesSlice.initialCategories;
 
 export const selectTowatchFilterState = (state: RootState) =>
   state.towatchesSlice.filter;

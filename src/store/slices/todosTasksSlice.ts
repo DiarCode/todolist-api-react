@@ -28,13 +28,29 @@ export const categoriesTasksSlice = createSlice({
       state,
       action: PayloadAction<{ categories: ITodoCategory[] }>
     ) => {
-      state.initialCategories = action.payload.categories;
+      state.initialCategories = [...action.payload.categories];
+    },
+    removeFromInitialCategories: (
+      state,
+      action: PayloadAction<{ category: ITodoCategory }>
+    ) => {
+      const category = action.payload.category;
+      state.initialCategories = state.initialCategories.filter(
+        c => c.id !== category.id
+      );
     },
     addTodo: (state, action: PayloadAction<{ todo: ITodo }>) => {
       const todo = action.payload.todo;
       if (state.category?.id === todo.category_id) {
         state.initialTodos = [...state.initialTodos, todo];
         state.todos = [...state.todos, action.payload.todo];
+      }
+    },
+    removeTodo: (state, action: PayloadAction<{ todo: ITodo }>) => {
+      const todo = action.payload.todo;
+      if (state.category?.id === todo.category_id) {
+        state.initialTodos = state.initialTodos.filter(t => t.id !== todo.id);
+        state.todos = state.todos.filter(t => t.id !== todo.id);
       }
     },
     selectCategory: (

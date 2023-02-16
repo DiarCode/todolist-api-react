@@ -3,24 +3,20 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/redux.hooks";
 import towatchModalActions, {
   selectIsTowatchModalOpen,
 } from "../../../store/slices/towatchModalSlice";
-import { useQuery } from "react-query";
-import { addTowatchToCategory, getTowatchCategories } from "../../../api/categories/categories";
+import { addTowatchToCategory } from "../../../api/categories/categories";
 import { selectAuthUser } from "../../../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import towatchSlice, {
+  selectInitialTowatchCategories,
+  selectTowatchCategory,
+} from "../../../store/slices/towatchSlice";
 
 const ToWatchModal = () => {
   const user = useAppSelector(selectAuthUser);
   const dispatch = useAppDispatch();
   const { isOpen, data } = useAppSelector(selectIsTowatchModalOpen);
-  const { data: categories } = useQuery(
-    "towatch-category",
-    () => getTowatchCategories(user.id),
-    {
-      enabled: user !== null,
-    }
-  );
-  
-  const navigate = useNavigate()
+  const categories = useAppSelector(selectInitialTowatchCategories);
+  const currCategory = useAppSelector(selectTowatchCategory);
 
   const [error, setError] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
@@ -52,20 +48,22 @@ const ToWatchModal = () => {
       towatch_category_id: selectedCategoryId!,
       user_id: user.id,
     };
-  
-    const res = await addTowatchToCategory(dto)
 
-    if (res.code !== 200){
-      setError(res.message)
-      return
-    } 
+    const res = await addTowatchToCategory(dto);
 
+    if (res.code !== 200) {
+      setError(res.message);
+      return;
+    }
+
+    dispatch(
+      towatchSlice.addTowatch({ towatch: res.data, category: currCategory })
+    );
     dispatch(towatchModalActions.closeTowatchModal());
     onResetAllParameters();
-    navigate(0);
   };
 
-  const renderedCategories = categories?.data.map(category => {
+  const renderedCategories = categories.map(category => {
     const isCategorySelected = selectedCategoryId === category.id;
 
     let componentStyle = "flex items-center gap-x-2 cursor-pointer";
