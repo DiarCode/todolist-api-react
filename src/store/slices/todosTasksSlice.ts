@@ -6,12 +6,14 @@ import { TODOS_FILTERS } from "src/constants/filters";
 
 interface CategoriesTasksState {
   category: ITodoCategory | null;
+  initialCategories: ITodoCategory[];
   initialTodos: ITodo[];
   todos: ITodo[];
   filter: string;
 }
 
 const initialState: CategoriesTasksState = {
+  initialCategories: [],
   category: null,
   initialTodos: [],
   todos: [],
@@ -22,9 +24,18 @@ export const categoriesTasksSlice = createSlice({
   name: "categoriesTasksSlice",
   initialState,
   reducers: {
+    fillInitialCategories: (
+      state,
+      action: PayloadAction<{ categories: ITodoCategory[] }>
+    ) => {
+      state.initialCategories = action.payload.categories;
+    },
     addTodo: (state, action: PayloadAction<{ todo: ITodo }>) => {
-      state.initialTodos = [...state.initialTodos, action.payload.todo];
-      state.todos = [...state.todos, action.payload.todo];
+      const todo = action.payload.todo;
+      if (state.category?.id === todo.category_id) {
+        state.initialTodos = [...state.initialTodos, todo];
+        state.todos = [...state.todos, action.payload.todo];
+      }
     },
     selectCategory: (
       state,
@@ -69,6 +80,9 @@ export default categoriesTasksSlice.actions;
 // Other code such as selectors can use the imported `RootState` type
 export const selectCategory = (state: RootState) =>
   state.categoryTasksSlice.category;
+
+export const selectInitialCategories = (state: RootState) =>
+  state.categoryTasksSlice.initialCategories;
 
 export const selectTodos = (state: RootState) => state.categoryTasksSlice.todos;
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import * as reduxHooks from "../../../hooks/redux.hooks";
+import { useAppSelector, useAppDispatch } from "../../../hooks/redux.hooks";
 import createTaskModalActions, {
   selectIsTodosOpen,
 } from "../../../store/slices/createTaskSlice";
@@ -9,9 +9,10 @@ import { getTodoCategories } from "../../../api/categories/categories";
 import { createTodo } from "../../../api/todos/todos";
 import { CreateTodoDto } from "../../../types/todos/todo.type";
 import { useNavigate } from "react-router-dom";
+import todosSliceActions from "../../../store/slices/todosTasksSlice";
 
 const CreateTaskModal = () => {
-  const user = reduxHooks.useAppSelector(selectAuthUser);
+  const user = useAppSelector(selectAuthUser);
   const { data: categories } = useQuery(
     "todo-category",
     () => getTodoCategories(user.id),
@@ -20,8 +21,8 @@ const CreateTaskModal = () => {
     }
   );
 
-  const dispatch = reduxHooks.useAppDispatch();
-  const isOpen = reduxHooks.useAppSelector(selectIsTodosOpen);
+  const dispatch = useAppDispatch();
+  const isOpen = useAppSelector(selectIsTodosOpen);
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
@@ -67,15 +68,14 @@ const CreateTaskModal = () => {
     };
 
     const res = await createTodo(dto);
-
     if (res.code !== 200) {
       setError(res.message);
       return;
     }
 
+    dispatch(todosSliceActions.addTodo({ todo: res.data }));
     dispatch(createTaskModalActions.closeTodosModal());
     onResetAllParameters();
-    navigate(0);
   };
 
   const renderedCategories = categories?.data?.map(category => {
