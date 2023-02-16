@@ -4,7 +4,6 @@ import towatchesSliceActions from "../../store/slices/towatchSlice";
 import { getTowatchesByCategory } from "../../api/towatches/towatches";
 import { selectAuthUser } from "../../store/slices/authSlice";
 import { IToWatchCategory } from "../../types/towatch/towatch_category.type";
-import { useNavigate } from "react-router-dom";
 import { deleteTowatchCategory } from "../../api/categories/categories";
 import RemoveSolid from "../Icons/RemoveSolid";
 

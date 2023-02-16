@@ -3,12 +3,9 @@ import { useAppSelector, useAppDispatch } from "../../../hooks/redux.hooks";
 import createTaskModalActions, {
   selectIsTodosOpen,
 } from "../../../store/slices/createTaskSlice";
-import { useQuery } from "react-query";
 import { selectAuthUser } from "../../../store/slices/authSlice";
-import { getTodoCategories } from "../../../api/categories/categories";
 import { createTodo } from "../../../api/todos/todos";
 import { CreateTodoDto } from "../../../types/todos/todo.type";
-import { useNavigate } from "react-router-dom";
 import todosSliceActions, {
   selectInitialCategories,
 } from "../../../store/slices/todosTasksSlice";

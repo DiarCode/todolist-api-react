@@ -5,7 +5,6 @@ import towatchModalActions, {
 } from "../../../store/slices/towatchModalSlice";
 import { addTowatchToCategory } from "../../../api/categories/categories";
 import { selectAuthUser } from "../../../store/slices/authSlice";
-import { useNavigate } from "react-router-dom";
 import towatchSlice, {
   selectInitialTowatchCategories,
   selectTowatchCategory,

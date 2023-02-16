@@ -6,7 +6,6 @@ import RemoveSolid from "../Icons/RemoveSolid";
 import { getTodosByCategory } from "../../api/todos/todos";
 import { selectAuthUser } from "../../store/slices/authSlice";
 import { deleteTodoCategory } from "../../api/categories/categories";
-import { useNavigate } from "react-router-dom";
 import todosTasksSlice from "../../store/slices/todosTasksSlice";
 
 interface CategoryItemProps {
@@ -16,7 +15,6 @@ interface CategoryItemProps {
 const CategoryItem = ({ data }: CategoryItemProps) => {
   const user = useAppSelector(selectAuthUser);
   const [isHoverd, setIsHovered] = useState(false);
-  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
