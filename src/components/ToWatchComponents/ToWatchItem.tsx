@@ -5,10 +5,11 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux.hooks";
 import { IToWatch } from "../../types/towatch/towatch.type";
 import { formatDate } from "../../utils/dateFormatter";
 import RemoveSolid from "../Icons/RemoveSolid";
-import { selectTowatchCategory } from "../../store/slices/towatchSlice";
+import towatchSlice, {
+  selectTowatchCategory,
+} from "../../store/slices/towatchSlice";
 import { removeTowatchFromCategory } from "../../api/categories/categories";
 import { selectAuthUser } from "../../store/slices/authSlice";
-import { useNavigate } from "react-router-dom";
 
 interface ToWatchItemProps {
   data: IToWatch;
@@ -19,7 +20,6 @@ const ToWatchItem = ({ data }: ToWatchItemProps) => {
   const user = useAppSelector(selectAuthUser);
   const category = useAppSelector(selectTowatchCategory);
   const [isHovered, setIsHovered] = useState(false);
-  const navigate = useNavigate();
   const isInCategory = category.value !== "Animes";
 
   const formattedDate = [
@@ -43,7 +43,7 @@ const ToWatchItem = ({ data }: ToWatchItemProps) => {
     };
 
     await removeTowatchFromCategory(dto);
-    navigate(0);
+    dispatch(towatchSlice.removeTowatch({ towatch: data, category: category }));
   };
 
   const hoveredDetailsContent = isHovered && (

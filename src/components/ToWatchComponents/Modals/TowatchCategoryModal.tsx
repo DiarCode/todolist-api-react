@@ -6,13 +6,16 @@ import { useNavigate } from "react-router-dom";
 import towatchModalSliceActions, {
   selectIsCreateTowatchCategoryhModalOpen,
 } from "../../../store/slices/towatchModalSlice";
-import { creaeteTowatchCategory } from "../../../api/categories/categories";
+import {
+  creaeteTowatchCategory,
+  getTowatchCategories,
+} from "../../../api/categories/categories";
+import towatchSlice from "../../../store/slices/towatchSlice";
 
 const CreateTowatchCategoryModal = () => {
   const user = useAppSelector(selectAuthUser);
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector(selectIsCreateTowatchCategoryhModalOpen);
-  const navigate = useNavigate();
 
   const [selectedColorId, setSelectedColorId] = useState<number | null>(null);
   const [categoryTitle, setCategoryTitle] = useState<string>("");
@@ -58,9 +61,17 @@ const CreateTowatchCategoryModal = () => {
       return;
     }
 
+    const categoriesRes = await getTowatchCategories(user.id);
+    if (categoriesRes.code !== 200) {
+      setError(categoriesRes.message);
+      return;
+    }
+
+    dispatch(
+      towatchSlice.fillInitialCategories({ categories: categoriesRes.data })
+    );
     dispatch(towatchModalSliceActions.closeCategoryModal());
     onResetAllParameters();
-    navigate(0);
   };
 
   const renderedColors = colorsData.map(color => {

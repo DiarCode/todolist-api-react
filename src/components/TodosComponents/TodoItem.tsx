@@ -1,10 +1,11 @@
 import React from "react";
 import { formatDate } from "../../utils/dateFormatter";
 import { completeTodo } from "../../api/todos/todos";
-import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../hooks/redux.hooks";
+import todosSliceActions from "../../store/slices/todosTasksSlice";
 
 const TodoItem = ({ data }) => {
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const completedStyle =
     "p-3 rounded-full bg-[#406ffa] border-[1px] border-black";
@@ -22,7 +23,7 @@ const TodoItem = ({ data }) => {
       return;
     }
 
-    navigate(0);
+    dispatch(todosSliceActions.removeTodo({ todo: data }));
   };
 
   return (

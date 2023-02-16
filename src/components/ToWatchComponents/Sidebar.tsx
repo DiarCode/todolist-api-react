@@ -2,25 +2,35 @@ import React from "react";
 import SidebarUserInfo from "../SidebarUserInfo/SidebarUserInfo";
 import CategoryItem from "./CategoryItem";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux.hooks";
-import { useQuery } from "react-query";
 import { getTowatchCategories } from "../../api/categories/categories";
 import { selectAuthUser } from "../../store/slices/authSlice";
 import { getAllTowatches } from "../../api/towatches/towatches";
-import towatchesSliceActions from "../../store/slices/towatchSlice";
+import towatchesSliceActions, {
+  selectInitialTowatchCategories,
+} from "../../store/slices/towatchSlice";
 import towatchModalSliceActions from "../../store/slices/towatchModalSlice";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectAuthUser);
-  const { data: categories } = useQuery(
-    "towatch-category",
-    () => getTowatchCategories(user.id),
-    {
-      enabled: user !== null,
-    }
-  );
+  const categories = useAppSelector(selectInitialTowatchCategories);
 
-  const renderedCategories = categories?.data.map(category => (
+  React.useEffect(() => {
+    (async function () {
+      if (user) {
+        const res = await getTowatchCategories(user.id);
+        if (res.code === 200) {
+          dispatch(
+            towatchesSliceActions.fillInitialCategories({
+              categories: res.data,
+            })
+          );
+        }
+      }
+    })();
+  }, [dispatch, user]);
+
+  const renderedCategories = categories.map(category => (
     <CategoryItem key={category.id} data={category} />
   ));
 

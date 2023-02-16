@@ -3,27 +3,19 @@ import { useAppSelector, useAppDispatch } from "../../../hooks/redux.hooks";
 import createTaskModalActions, {
   selectIsTodosOpen,
 } from "../../../store/slices/createTaskSlice";
-import { useQuery } from "react-query";
 import { selectAuthUser } from "../../../store/slices/authSlice";
-import { getTodoCategories } from "../../../api/categories/categories";
 import { createTodo } from "../../../api/todos/todos";
 import { CreateTodoDto } from "../../../types/todos/todo.type";
-import { useNavigate } from "react-router-dom";
-import todosSliceActions from "../../../store/slices/todosTasksSlice";
+import todosSliceActions, {
+  selectInitialCategories,
+} from "../../../store/slices/todosTasksSlice";
 
 const CreateTaskModal = () => {
   const user = useAppSelector(selectAuthUser);
-  const { data: categories } = useQuery(
-    "todo-category",
-    () => getTodoCategories(user.id),
-    {
-      enabled: user !== null,
-    }
-  );
+  const categories = useAppSelector(selectInitialCategories);
 
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector(selectIsTodosOpen);
-  const navigate = useNavigate();
   const [error, setError] = useState("");
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>(-1);
@@ -78,7 +70,7 @@ const CreateTaskModal = () => {
     onResetAllParameters();
   };
 
-  const renderedCategories = categories?.data?.map(category => {
+  const renderedCategories = categories?.map(category => {
     const isCategorySelected = selectedCategoryId === category.id;
 
     let componentStyle = "flex items-center gap-x-2 cursor-pointer";
@@ -126,7 +118,11 @@ const CreateTaskModal = () => {
         <div className="flex flex-col mb-5">
           <p className="font-bold">Choose category</p>
           <div className="flex items-center gap-x-8 overflow-x-auto py-4">
-            {renderedCategories}
+            {renderedCategories.length === 0 ? (
+              <p className="text-gray-300">Add new category to create todo</p>
+            ) : (
+              renderedCategories
+            )}
           </div>
         </div>
 

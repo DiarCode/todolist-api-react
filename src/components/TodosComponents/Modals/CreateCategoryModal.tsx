@@ -66,7 +66,11 @@ const CreateCategoryModal = () => {
       return;
     }
 
-    dispatch(todosSliceActions.fillInitialCategories(categoriesRes.data));
+    dispatch(
+      todosSliceActions.fillInitialCategories({
+        categories: categoriesRes.data,
+      })
+    );
     dispatch(createTaskModalActions.closeCategoryModal());
     onResetAllParameters();
   };
