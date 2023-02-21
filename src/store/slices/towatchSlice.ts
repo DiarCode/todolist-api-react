@@ -63,6 +63,7 @@ export const towatchesSlice = createSlice({
 
       if (state.category?.id === category.id) {
         state.towatches = state.towatches.filter(t => t.id !== towatch.id);
+        state.initialTowatches = state.towatches;
       }
     },
     selectCategory: (

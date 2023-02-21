@@ -50,7 +50,7 @@ export const categoriesTasksSlice = createSlice({
       const todo = action.payload.todo;
       if (state.category?.id === todo.category_id) {
         state.initialTodos = state.initialTodos.filter(t => t.id !== todo.id);
-        state.todos = state.todos.filter(t => t.id !== todo.id);
+        state.todos = state.initialTodos;
       }
     },
     selectCategory: (
