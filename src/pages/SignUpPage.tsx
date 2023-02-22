@@ -64,7 +64,7 @@ const SignUpPage = () => {
 
   return (
     <Layout title={"Signup"}>
-      <div className="w-1/4 bg-gray-100 rounded-lg p-7 py-9 ">
+      <div className="w-[400px] bg-gray-100 rounded-lg p-7 py-9 ">
         <div className="flex flex-col h-full">
           <h1 className="font-semibold text-2xl uppercase text-center text-[#406ffa]">
             Sign Up
