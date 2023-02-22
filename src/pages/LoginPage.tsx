@@ -12,6 +12,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -34,10 +35,12 @@ const LoginPage = () => {
       password,
     };
 
+    setIsLoading(true);
     const res = await login(loginDto);
 
     if (res.code !== 200) {
       setError(res.message);
+      setIsLoading(false);
       return;
     }
 
@@ -51,6 +54,7 @@ const LoginPage = () => {
     dispatch(authSliceActions.setAuth({ user, token: data.token }));
     localStorage.setItem("token", JSON.stringify(data.token));
     localStorage.setItem("user_id", JSON.stringify(user.id));
+    setIsLoading(false);
 
     navigate("/");
   };
@@ -94,8 +98,10 @@ const LoginPage = () => {
 
           <div className="mt-auto flex items-center justify-center mb-6">
             <button
+              disabled={isLoading}
               onClick={onLoginClick}
               className="px-10 py-2 rounded-lg bg-gradient-to-r from-[#406ffa] to-[#2948ff] text-gray-200"
+              style={{ background: isLoading ? "#a6a6a6" : "" }}
             >
               Login
             </button>

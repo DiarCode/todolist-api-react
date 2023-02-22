@@ -18,6 +18,7 @@ const ToWatchModal = () => {
   const currCategory = useAppSelector(selectTowatchCategory);
 
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(
     null
   );
@@ -48,10 +49,12 @@ const ToWatchModal = () => {
       user_id: user.id,
     };
 
+    setIsLoading(true);
     const res = await addTowatchToCategory(dto);
 
     if (res.code !== 200) {
       setError(res.message);
+      setIsLoading(false);
       return;
     }
 
@@ -60,6 +63,7 @@ const ToWatchModal = () => {
     );
     dispatch(towatchModalActions.closeTowatchModal());
     onResetAllParameters();
+    setIsLoading(false);
   };
 
   const renderedCategories = categories.map(category => {
@@ -114,10 +118,12 @@ const ToWatchModal = () => {
 
         <div className="flex items-center justify-center">
           <button
+            disabled={isLoading}
             onClick={onFormSubmit}
             className="px-10 py-2 rounded-lg bg-gradient-to-r from-[#406ffa] to-[#2948ff] text-gray-200"
+            style={{ background: isLoading ? "#a6a6a6" : "" }}
           >
-            Add category
+            Add to category
           </button>
         </div>
       </div>

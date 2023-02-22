@@ -19,6 +19,7 @@ const CreateCategoryModal = () => {
   const [selectedColorId, setSelectedColorId] = useState<number | null>(null);
   const [categoryTitle, setCategoryTitle] = useState<string>("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const componentStyle = isOpen ? "flex" : "hidden";
 
@@ -54,15 +55,18 @@ const CreateCategoryModal = () => {
       user_id: user.id,
     };
 
+    setIsLoading(true);
     const res = await creaeteTodoCategory(dto);
     if (res.code !== 200) {
       setError(res.message);
+      setIsLoading(false);
       return;
     }
 
     const categoriesRes = await getTodoCategories(user.id);
     if (categoriesRes.code !== 200) {
       setError(categoriesRes.message);
+      setIsLoading(false);
       return;
     }
 
@@ -73,6 +77,7 @@ const CreateCategoryModal = () => {
     );
     dispatch(createTaskModalActions.closeCategoryModal());
     onResetAllParameters();
+    setIsLoading(false);
   };
 
   const renderedColors = colorsData.map(color => {
@@ -131,9 +136,11 @@ const CreateCategoryModal = () => {
         <div className="flex items-center justify-center">
           <button
             onClick={onFormSubmit}
+            disabled={isLoading}
             className="px-10 py-2 rounded-lg bg-gradient-to-r from-[#406ffa] to-[#2948ff] text-gray-200"
+            style={{ background: isLoading ? "#a6a6a6" : "" }}
           >
-            Add category
+            New Category
           </button>
         </div>
       </div>
