@@ -17,6 +17,7 @@ const CreateTaskModal = () => {
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector(selectIsTodosOpen);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const [selectedCategoryId, setSelectedCategoryId] = useState<number>(-1);
   const [todoTitle, setTodoTitle] = useState<string>("");
@@ -59,15 +60,19 @@ const CreateTaskModal = () => {
       category_id: selectedCategoryId,
     };
 
+    setIsLoading(true);
     const res = await createTodo(dto);
+
     if (res.code !== 200) {
       setError(res.message);
+      setIsLoading(false);
       return;
     }
 
     dispatch(todosSliceActions.addTodo({ todo: res.data }));
     dispatch(createTaskModalActions.closeTodosModal());
     onResetAllParameters();
+    setIsLoading(false);
   };
 
   const renderedCategories = categories?.map(category => {
@@ -149,10 +154,12 @@ const CreateTaskModal = () => {
 
         <div className="flex items-center justify-center">
           <button
+            disabled={isLoading}
             onClick={onFormSubmit}
             className="px-10 py-2 rounded-lg bg-gradient-to-r from-[#406ffa] to-[#2948ff] text-gray-200"
+            style={{ background: isLoading ? "#a6a6a6" : "" }}
           >
-            New Task
+            New task
           </button>
         </div>
       </div>

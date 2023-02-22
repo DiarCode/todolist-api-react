@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/redux.hooks";
 import { colorsData } from "../../../constants/colors";
 import { selectAuthUser } from "../../../store/slices/authSlice";
-import { useNavigate } from "react-router-dom";
 import towatchModalSliceActions, {
   selectIsCreateTowatchCategoryhModalOpen,
 } from "../../../store/slices/towatchModalSlice";
@@ -20,6 +19,7 @@ const CreateTowatchCategoryModal = () => {
   const [selectedColorId, setSelectedColorId] = useState<number | null>(null);
   const [categoryTitle, setCategoryTitle] = useState<string>("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const componentStyle = isOpen ? "flex" : "hidden";
 
@@ -55,8 +55,10 @@ const CreateTowatchCategoryModal = () => {
       user_id: user.id,
     };
 
+    setIsLoading(true);
     const res = await creaeteTowatchCategory(dto);
     if (res.code !== 200) {
+      setIsLoading(false);
       setError(res.message);
       return;
     }
@@ -64,6 +66,7 @@ const CreateTowatchCategoryModal = () => {
     const categoriesRes = await getTowatchCategories(user.id);
     if (categoriesRes.code !== 200) {
       setError(categoriesRes.message);
+      setIsLoading(false);
       return;
     }
 
@@ -72,6 +75,7 @@ const CreateTowatchCategoryModal = () => {
     );
     dispatch(towatchModalSliceActions.closeCategoryModal());
     onResetAllParameters();
+    setIsLoading(false);
   };
 
   const renderedColors = colorsData.map(color => {
@@ -129,10 +133,12 @@ const CreateTowatchCategoryModal = () => {
 
         <div className="flex items-center justify-center">
           <button
+            disabled={isLoading}
             onClick={onFormSubmit}
             className="px-10 py-2 rounded-lg bg-gradient-to-r from-[#406ffa] to-[#2948ff] text-gray-200"
+            style={{ background: isLoading ? "#a6a6a6" : "" }}
           >
-            Add category
+            New Category
           </button>
         </div>
       </div>
