@@ -64,7 +64,7 @@ const HomePage = () => {
 
   return (
     <Layout title={"Home"}>
-      <div className="w-4/5 h-4/5 bg-gray-100 rounded-lg p-7">
+      <div className="w-full lg:w-4/5 h-4/5 bg-gray-100 rounded-lg p-7">
         <div className="flex justify-end pb-7">
           <Navbar />
         </div>

@@ -6,7 +6,7 @@ import Content from "../components/TodosComponents/Content";
 const HomePage = () => {
   return (
     <Layout title={"Todos"}>
-      <div className="w-4/5 h-4/5 bg-gray-100 rounded-lg">
+      <div className="w-full lg:w-4/5 h-4/5 bg-gray-100 rounded-lg">
         <div className="grid grid-cols-4 h-full w-full">
           <Sidebar />
           <Content />

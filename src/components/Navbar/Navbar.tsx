@@ -25,10 +25,10 @@ const Navbar = () => {
 
   return (
     <div className="w-full flex items-center justify-between">
-      <div className="font-semibold text-[#406ffa] cursor-pointer text-lg uppercase">
+      <div className="font-semibold text-[#406ffa] cursor-pointer text-lg uppercase mr-6">
         <Link to="/">Todoom</Link>
       </div>
-      <div className="flex items-center gap-x-7 uppercase text-gray-400">
+      <div className="flex items-center gap-x-7 uppercase text-gray-400 overflow-auto">
         {renderedNavbarLinks}
 
         <button onClick={onLogoutClick}>
