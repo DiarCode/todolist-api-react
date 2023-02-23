@@ -46,6 +46,7 @@ const LoginPage = () => {
 
     const data = res.data;
     const user: IUser = {
+      avatar: data.avatar,
       id: data.user_id,
       email: data.email,
       name: data.name,
