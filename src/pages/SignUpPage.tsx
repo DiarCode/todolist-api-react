@@ -49,6 +49,7 @@ const SignUpPage = () => {
 
     const data = res.data;
     const user: IUser = {
+      avatar: "",
       id: data.user_id,
       email: data.email,
       name: data.name,
